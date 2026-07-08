@@ -131,6 +131,8 @@ section{padding:88px 0}
 
 .easy-card p{font-size:13px;color:var(--ink-soft);line-height:1.9}
 .easy-card.wide p{color:var(--ink);max-width:520px}
+.easy-imgs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:36px 0 0}
+.easy-imgs img{border-radius:var(--radius);width:100%;aspect-ratio:4/3;object-fit:cover}
 
 /* ===== 物語 ===== */
 .sec-story{background:var(--washi-deep);position:relative;overflow:hidden}
@@ -317,14 +319,12 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   .prod-item{grid-template-columns:1fr;gap:18px}
   .prod-item img{width:100%;aspect-ratio:16/9}
   .howto-imgs{grid-template-columns:1fr}
+  .easy-imgs{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-  セクション0：ヒーロー
-============================================================ -->
 <header class="hero">
   <div class="hero-inner">
     <div class="hero-copy">
@@ -336,7 +336,7 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
       </p>
       <div class="btn-row">
         <a class="btn btn-ember" href="#types">私に合うOQを見る</a>
-        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->まず自分のタイプを知る</a>
+        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/">まず自分のタイプを知る</a>
       </div>
       <p class="btn-note">「わたしの五行タイプ」診断（約3分・無料）を受けた方は、上のボタンから結果に合わせた楽しみ方をご覧いただけます。</p>
     </div>
@@ -346,9 +346,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </header>
 
-<!-- ============================================================
-  セクション1：共感
-============================================================ -->
 <section class="sec-empathy">
   <div class="wrap">
     <div class="empathy-grid">
@@ -372,9 +369,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション2：ハードルを下げる
-============================================================ -->
 <section class="sec-easy">
   <div class="wrap">
     <p class="eyebrow">SIMPLE &amp; EASY</p>
@@ -383,6 +377,10 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
       「熱そうで怖い」「準備が面倒」——興味はあるのに、ここで立ち止まる方がいちばん多い。<br>
       だからOQは、始めるまでの段取りをぜんぶ削りました。
     </p>
+    <div class="easy-imgs">
+      <img src="images/OQ-9.jpg" alt="OQ canとお灸・キャンドルのセット一式" loading="lazy">
+      <img src="images/OQ-10.jpg" alt="手首にお灸を置いて温めている様子" loading="lazy">
+    </div>
     <div class="easy-cards">
       <div class="easy-card">
         <p class="big">道具は、<br>もう全部そろっています</p>
@@ -400,9 +398,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション3：ブランドの物語
-============================================================ -->
 <section class="sec-story">
   <div class="wrap">
     <div class="story-grid">
@@ -431,11 +426,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション4：五行タイプ別（診断からの着地点）
-  診断結果ページからは #moku / #tsuchi / #kin / #mizu 付きURLでリンクすると
-  該当タイプのタブが開いた状態で表示されます。
-============================================================ -->
 <section class="sec-types" id="types">
   <div class="wrap">
     <p class="eyebrow">FOR YOUR TYPE</p>
@@ -449,7 +439,7 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
         <strong>まだ診断を受けていない方へ</strong>
         3分の質問で、ご自身の五行タイプと、タイプ別のツボ解説がわかります。
       </p>
-      <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->まず自分のタイプを知る</a>
+      <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/">まず自分のタイプを知る</a>
     </div>
 
     <div class="type-tabs" role="tablist" aria-label="五行タイプを選ぶ">
@@ -459,7 +449,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
       <button class="type-tab" style="--c:var(--mizu)" role="tab" aria-selected="false" data-type="mizu"><span class="kanji">水</span>みず</button>
     </div>
 
-    <!-- 木 -->
     <div class="type-panel active" style="--c:var(--moku)" id="panel-moku" role="tabpanel">
       <p class="type-catch">がんばれてしまう人ほど、<br>切り替えの合図が要ります。</p>
       <p class="type-sub">目標があると走れる木タイプ。そのぶん、思いどおりに進まない日のイライラを、人知れずため込みがちです。「休む」も予定のうち、と考えてみてください。</p>
@@ -476,12 +465,11 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="label">おすすめのあたたかさ</p>
           <span class="reco-badge reco-warm">OQ point warm</span>
           <p class="reco-why">気が高ぶって頭が止まらない夜には、強い刺激より、ゆるやかな温もりのほうが合図になります。太衝にwarmをひとつ——木タイプの基本形です。</p>
-          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->OQ point warm を詳しく見る</a>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/">OQ point warm を詳しく見る</a>
         </div>
       </div>
     </div>
 
-    <!-- 土 -->
     <div class="type-panel" style="--c:var(--tsuchi)" id="panel-tsuchi" role="tabpanel" hidden>
       <p class="type-catch">人を支えるその手を、<br>今夜は自分に。</p>
       <p class="type-sub">聞き役が上手な土タイプは、悩みをひとりで抱えやすい人でもあります。ごはんをゆっくり味わうのと同じ速度で、自分の時間も。</p>
@@ -498,12 +486,11 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="label">おすすめのあたたかさ</p>
           <span class="reco-badge reco-hot">OQ point hot</span>
           <p class="reco-why">なんとなく体が重い日の多い土タイプには、じんわり芯まで届くhotを。三陰交は座ったまま手が届く場所なので、寝る前の五分にちょうどいい組み合わせです。</p>
-          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->OQ point hot を詳しく見る</a>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/">OQ point hot を詳しく見る</a>
         </div>
       </div>
     </div>
 
-    <!-- 金 -->
     <div class="type-panel" style="--c:var(--kin)" id="panel-kin" role="tabpanel" hidden>
       <p class="type-catch">その感じやすさは、<br>直すところではありません。</p>
       <p class="type-sub">ひらめきと直感で動く金タイプ。気分の波とつきあうには、ひとりで静かに過ごす時間の確保が、なにより先です。</p>
@@ -520,12 +507,11 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="label">おすすめのあたたかさ</p>
           <span class="reco-badge reco-warm">OQ point warm</span>
           <p class="reco-why">まずはwarmから。繊細な感覚をもつ金タイプには、穏やかな温もりくらいが、ちょうどなじみます。</p>
-          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->OQ point warm を詳しく見る</a>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/">OQ point warm を詳しく見る</a>
         </div>
       </div>
     </div>
 
-    <!-- 水 -->
     <div class="type-panel" style="--c:var(--mizu)" id="panel-mizu" role="tabpanel" hidden>
       <p class="type-catch">ためて、つかう。<br>その繰り返しの底に、小さな火を。</p>
       <p class="type-sub">エネルギーを蓄えて、少しずつ使う水タイプ。しっかり動いて、しっかり休む——そのメリハリを、夜の習慣で支えます。</p>
@@ -542,21 +528,18 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="label">おすすめのあたたかさ</p>
           <span class="reco-badge reco-hot">OQ point hot</span>
           <p class="reco-why">水タイプの定番は、太渓にhot。湯船から上がったあと、体が冷めきる前のもう一手として。冬は、とくに出番が増えます。</p>
-          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->OQ point hot を詳しく見る</a>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/">OQ point hot を詳しく見る</a>
         </div>
       </div>
     </div>
 
     <p class="type-footnote">
-      ※タイプ別のおすすめは、温考知身の鍼灸師による提案です。東洋医学の考え方で、気が高ぶりやすいタイプ（木・金）には穏やかな「warm」を、温もりをじっくりためたいタイプ（土・水）にはしっかりめの「hot」を、という目安でご案内しています。どちらも心地よさの好みで自由に選んでいただけます。迷ったら、両方入りの<a href="https://qitrip.base.shop/" style="color:var(--ember)"><!-- フルケアセット商品ページURLに差し替え -->OQフルケアセット</a>という選択も。<br>
+      ※タイプ別のおすすめは、温考知身の鍼灸師による提案です。東洋医学の考え方で、気が高ぶりやすいタイプ（木・金）には穏やかな「warm」を、温もりをじっくりためたいタイプ（土・水）にはしっかりめの「hot」を、という目安でご案内しています。どちらも心地よさの好みで自由に選んでいただけます。迷ったら、両方入りの<a href="https://qitrip.base.shop/" style="color:var(--ember)">OQフルケアセット</a>という選択も。<br>
       ※ツボの位置はあくまで目安です。心地よいと感じる場所でお使いください。
     </p>
   </div>
 </section>
 
-<!-- ============================================================
-  セクション5：基本のツボ早見
-============================================================ -->
 <section class="sec-tsubo" id="tsubo">
   <div class="wrap">
     <p class="eyebrow">FOUR POINTS</p>
@@ -593,14 +576,11 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
     <p class="tsubo-caption">
       ※ツボの位置は目安です。心地よいと感じる場所にご使用ください。<br>
       それぞれのツボの詳しい見つけ方や、あなたの体質との関わりは、「わたしの五行タイプ」診断の結果ページでタイプ別に解説しています。
-      <a href="https://onkouchishin.life/gogyo-shindan/" style="color:var(--ember)"><!-- 診断ページURLに差し替え -->診断で自分の要のツボを知る →</a>
+      <a href="https://onkouchishin.life/gogyo-shindan/" style="color:var(--ember)">診断で自分の要のツボを知る →</a>
     </p>
   </div>
 </section>
 
-<!-- ============================================================
-  セクション6：商品ラインナップ（BASEへの送客）
-============================================================ -->
 <section class="sec-products" id="products">
   <div class="wrap">
     <p class="eyebrow">LINE UP</p>
@@ -619,18 +599,18 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="prod-price">5,500円（税込）</p>
           <p class="prod-desc">OQ can に、point hot・point warm のリフィルを加えたセット。タイプや季節、その日の気分で使い分けられる、いちばん充実のかたちです。</p>
         </div>
-        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- フルケアセット商品ページURLに差し替え -->詳しく見る</a>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/">詳しく見る</a>
       </div>
 
       <div class="prod-item">
-        <img src="images/OQ-8.jpg" alt="OQ can はじめてのお灸セット" loading="lazy">
+        <img src="images/OQ-2.jpg" alt="OQ can はじめてのお灸セット" loading="lazy">
         <div>
           <span class="prod-tag">まずは試してみたい方に</span>
           <p class="prod-name">OQ can（はじめてのお灸セット）</p>
           <p class="prod-price">3,300円（税込）</p>
           <p class="prod-desc">お灸2種・ろうそく・マッチ・ガイドブック。必要なものは、すべて箱の中に。届いたその日から始められるオールインワンキットです。贈りものにも。</p>
         </div>
-        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- OQ can 商品ページURLに差し替え -->詳しく見る</a>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/">詳しく見る</a>
       </div>
 
       <div class="prod-item noimg">
@@ -640,7 +620,7 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="prod-price">1,650円（税込）</p>
           <p class="prod-desc">しっかりめの温もり「hot」のリフィル50粒。土・水タイプの定番。缶はそのまま、中身だけ足せます。</p>
         </div>
-        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->詳しく見る</a>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/">詳しく見る</a>
       </div>
 
       <div class="prod-item noimg">
@@ -650,7 +630,7 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
           <p class="prod-price">1,650円（税込）</p>
           <p class="prod-desc">穏やかな温もり「warm」のリフィル50粒。木・金タイプの方は、まずこちらから。</p>
         </div>
-        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->詳しく見る</a>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/">詳しく見る</a>
       </div>
     </div>
     <p class="tsubo-caption" style="text-align:center;margin-top:28px">
@@ -659,9 +639,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション7：使い方と安心
-============================================================ -->
 <section class="sec-howto" id="howto">
   <div class="narrow" style="max-width:860px">
     <p class="eyebrow">HOW TO USE</p>
@@ -670,10 +647,10 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
       お灸がじんわり温まるまでの五分間は、スマホを手放す時間でもあります。立ちのぼる煙をながめながら、ゆっくり深呼吸を。
     </p>
     <p style="color:var(--ink-soft);font-size:14px;max-width:620px">
-      <strong style="color:var(--ink)">STEP 01</strong>　お灸のもぐさに火をつけます。<br>
-      <strong style="color:var(--ink)">STEP 02</strong>　お好みの場所にお灸を置きます。<br>
-      <strong style="color:var(--ink)">STEP 03</strong>　熱を感じるまで、置いておきます。<br>
-      <strong style="color:var(--ink)">STEP 04</strong>　ゆっくりと取り外し、缶の蓋に置きます。
+      <strong style="color:var(--ink)">STEP 01</strong> お灸のもぐさに火をつけます。<br>
+      <strong style="color:var(--ink)">STEP 02</strong> お好みの場所にお灸を置きます。<br>
+      <strong style="color:var(--ink)">STEP 03</strong> 熱を感じるまで、置いておきます。<br>
+      <strong style="color:var(--ink)">STEP 04</strong> ゆっくりと取り外し、缶の蓋に置きます。
     </p>
     <div class="howto-imgs">
       <img src="images/OQ-5-2.jpg" alt="使い方 STEP01 火をつける・STEP02 置く" loading="lazy">
@@ -693,9 +670,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション8：FAQ
-============================================================ -->
 <section class="sec-faq">
   <div class="narrow" style="max-width:760px">
     <p class="eyebrow">FAQ</p>
@@ -725,9 +699,6 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
   </div>
 </section>
 
-<!-- ============================================================
-  セクション9：クロージング
-============================================================ -->
 <section class="sec-close">
   <div class="close-visual">
     <img src="images/OQ-4-2.jpg" alt="" loading="lazy">
@@ -742,7 +713,7 @@ footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--in
       <div class="close-ctas">
         <a class="btn btn-ember" href="https://qitrip.base.shop/">OQのラインナップを見る</a>
         <a class="btn btn-ghost" href="#types">タイプ別のおすすめにもどる</a>
-        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->自分の五行タイプを知る</a>
+        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/">自分の五行タイプを知る</a>
       </div>
     </div>
   </div>
