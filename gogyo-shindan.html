@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!--
+  ============================================================
+  温考知身「わたしの体質と、ツボの地図。」 v2
+  ============================================================
+  ▼ STUDIOサイトへの組み込みかた
+    1) このファイルを1枚そのままホスティングする
+       （GitHub Pages / Netlify / Cloudflare Pages などの無料枠でOK）
+    2) STUDIOのエディタで「iframe（埋め込み）」ボックスを配置し、
+       次のコードを貼りつける
+       <iframe src="https://＜公開したURL＞"
+         style="width:100%;height:920px;border:0;border-radius:16px;"
+         loading="lazy" title="わたしの体質と、ツボの地図"></iframe>
+       ・高さは 850〜1000px あたりが目安（iframeの内側でスクロールします）
+    3) からだの図をいったん非表示にしたいとき
+       → スクリプト冒頭の「const SHOW_FIG = true;」を false に変えるだけ
+    4) イラスト素材が用意できたら
+       → VIEWS の各ビュー（SVG）を画像に差し替えられる設計です。
+         素材が揃った段階でご相談ください。
+  ============================================================
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>わたしの五行タイプと、ツボの地図｜温考知身</title>
+<meta property="og:title" content="わたしの五行タイプ｜温考知身">
+<meta property="og:description" content="30の問いに答えるだけ。東洋医学の陰陽五行から、あなたの体質タイプ・性格・整えかた、そして五行の相生相剋でわかる相性まで。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://onkouchishin.life/">
+<meta property="og:image" content="https://onkouchishin.life/ogp-gogyo.png">
+<meta name="twitter:card" content="summary_large_image">
+<!-- og:image / og:url は公開時に実在するURLへ差し替えてください（画像は1200x630推奨） -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Shippori+Mincho:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --washi:#f4eee0;
+  --washi-deep:#ece4d0;
+  --card:#fdfaf1;
+  --ink:#453b2c;
+  --ink-soft:#8a7d64;
+  --line:#ddd2b6;
+  --ember:#c0632e;
+  --ember-soft:#e8c9ae;
+  --moku:#5d7f5f;
+  --tsuchi:#b98a2e;
+  --kin:#968660;
+  --mizu:#4b628c;
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+body{
+  font-family:'Zen Maru Gothic',sans-serif;
+  color:var(--ink);
+  background-color:var(--washi);
+  background-image:radial-gradient(rgba(69,59,44,.045) 1px, transparent 1px);
+  background-size:22px 22px;
+  line-height:1.8;
+  font-size:15px;
+}
+.wrap{max-width:720px;margin:0 auto;padding:36px 18px 64px;}
+.serif{font-family:'Shippori Mincho',serif;}
+
+/* ---------- header ---------- */
+.eyebrow{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:.28em;color:var(--ink-soft);
+  margin-bottom:14px;
+}
+.eyebrow::before,.eyebrow::after{content:"";height:1px;background:var(--line);flex:0 0 28px;}
+.eyebrow::after{flex:1;}
+h1{
+  font-family:'Shippori Mincho',serif;
+  font-size:clamp(24px,5.6vw,32px);
+  font-weight:600;letter-spacing:.06em;line-height:1.5;
+  margin-bottom:12px;
+}
+.lead{font-size:14px;color:var(--ink-soft);max-width:34em;margin-bottom:26px;}
+
+/* ---------- mode nav ---------- */
+.mode-nav{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  background:var(--washi-deep);border:1px solid var(--line);
+  border-radius:999px;padding:6px;margin-bottom:34px;
+}
+.mode-nav button{
+  appearance:none;border:0;background:transparent;cursor:pointer;
+  font-family:inherit;font-size:14px;font-weight:700;color:var(--ink-soft);
+  padding:11px 8px;border-radius:999px;letter-spacing:.08em;
+  transition:background .25s,color .25s;
+}
+.mode-nav button .sub{display:block;font-size:10px;font-weight:500;letter-spacing:.14em;opacity:.75;}
+.mode-nav button.on{background:var(--ink);color:var(--card);}
+.mode-nav button:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+
+section[hidden]{display:none;}
+
+/* ---------- shared ---------- */
+.card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:26px 22px;
+  box-shadow:0 2px 0 rgba(69,59,44,.05);
+}
+.btn{
+  appearance:none;border:0;cursor:pointer;font-family:inherit;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--ink);color:var(--card);
+  font-size:15px;font-weight:700;letter-spacing:.12em;
+  padding:14px 34px;border-radius:999px;
+  transition:transform .15s,opacity .2s;
+}
+.btn:hover{opacity:.88;}
+.btn:active{transform:scale(.97);}
+.btn:focus-visible{outline:2px solid var(--ember);outline-offset:3px;}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink);}
+.btn.small{font-size:12.5px;padding:9px 20px;}
+.note{font-size:12px;color:var(--ink-soft);line-height:1.9;}
+.fade-in{animation:fadeIn .35s ease both;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* ---------- gogyo intro ring ---------- */
+.gogyo-ring{display:flex;justify-content:center;gap:14px;margin:6px 0 20px;flex-wrap:wrap;}
+.gogyo-ring .g{
+  width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:24px;font-weight:600;color:#fff;
+  position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.gogyo-ring .g small{
+  position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
+  font-family:'Zen Maru Gothic',sans-serif;font-size:10px;color:var(--ink-soft);
+  letter-spacing:.1em;white-space:nowrap;
+}
+
+/* ---------- gogyo list（スタート画面のタイプ一覧） ---------- */
+.gogyo-list{display:grid;gap:9px;margin:4px 0 16px;}
+.gl-row{
+  appearance:none;cursor:pointer;font-family:inherit;text-align:left;
+  background:var(--washi);border:1.5px solid var(--line);border-radius:14px;
+  padding:11px 14px;display:flex;align-items:center;gap:13px;
+  transition:border-color .2s,background .2s;
+}
+.gl-row:hover{border-color:var(--c);background:#fbf5e9;}
+.gl-row:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+.gl-row .g{
+  width:42px;height:42px;border-radius:50%;flex:0 0 auto;background:var(--c);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;color:#fff;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.gl-row .gl-tx{flex:1;min-width:0;line-height:1.5;}
+.gl-row .gl-tx b{font-size:14px;display:block;}
+.gl-row .gl-tx small{font-size:11px;color:var(--ink-soft);display:block;}
+.gl-row .ar{color:var(--ink-soft);font-size:12px;flex:0 0 auto;}
+.about-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px;}
+.th-more{margin-top:10px;position:relative;z-index:1;}
+.th-more a{
+  color:#fff;font-size:12px;font-weight:700;cursor:pointer;
+  text-decoration:underline;text-underline-offset:3px;opacity:.95;
+}
+
+/* ---------- quiz ---------- */
+.q-progress{display:flex;align-items:center;gap:10px;margin-bottom:18px;}
+.q-progress .bar{flex:1;height:6px;background:var(--washi-deep);border-radius:99px;overflow:hidden;}
+.q-progress .bar i{display:block;height:100%;background:var(--ember);border-radius:99px;transition:width .35s ease;}
+.q-progress .num{font-size:12px;color:var(--ink-soft);letter-spacing:.1em;font-weight:700;min-width:4.5em;text-align:right;}
+.q-text{
+  font-family:'Shippori Mincho',serif;font-size:19px;font-weight:600;
+  line-height:1.7;letter-spacing:.03em;min-height:4.6em;
+  display:flex;align-items:center;margin-bottom:20px;
+}
+.q-opts{display:grid;gap:9px;}
+.q-opts button{
+  appearance:none;cursor:pointer;font-family:inherit;
+  background:var(--washi);border:1.5px solid var(--line);border-radius:14px;
+  padding:13px 16px;font-size:14.5px;font-weight:500;color:var(--ink);
+  text-align:left;display:flex;align-items:center;gap:12px;
+  transition:border-color .2s,background .2s;
+}
+.q-opts button .mark{
+  width:16px;height:16px;border-radius:50%;
+  border:2px solid var(--ink-soft);flex:0 0 auto;
+  transition:background .2s,border-color .2s;
+}
+.q-opts button:hover{border-color:var(--ember);background:#fbf5e9;}
+.q-opts button:hover .mark{border-color:var(--ember);}
+.q-opts button:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+.q-back{margin-top:16px;text-align:center;}
+.q-back button{
+  appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:12px;color:var(--ink-soft);text-decoration:underline;text-underline-offset:3px;
+}
+
+/* ---------- result ---------- */
+.seal{
+  width:120px;height:120px;border-radius:50%;margin:4px auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:56px;font-weight:700;color:#fff;
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.4),0 4px 14px rgba(69,59,44,.18);
+  position:relative;
+}
+.seal::after{
+  content:"";position:absolute;inset:-8px;border-radius:50%;
+  border:1.5px dashed var(--line);
+}
+.res-eyebrow{
+  text-align:center;font-size:11px;letter-spacing:.34em;color:var(--ink-soft);
+  margin-bottom:6px;display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.res-eyebrow::before,.res-eyebrow::after{content:"";height:1px;background:var(--line);width:26px;}
+.res-blend{
+  background:var(--washi);border:1px solid var(--line);border-radius:16px;
+  padding:16px 18px 14px;margin-bottom:22px;text-align:center;
+}
+.res-blend .bl-catch{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;letter-spacing:.05em;margin-bottom:10px;}
+.res-blend .bl-bar{display:flex;height:14px;border-radius:99px;overflow:hidden;margin-bottom:8px;box-shadow:inset 0 0 0 1px rgba(69,59,44,.08);}
+.res-blend .bl-bar i{display:block;height:100%;}
+.res-blend .bl-nums{font-size:13px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em;}
+.res-catch{text-align:center;font-size:12.5px;letter-spacing:.22em;color:var(--ink-soft);margin-bottom:2px;}
+.res-name{
+  text-align:center;font-family:'Shippori Mincho',serif;
+  font-size:26px;font-weight:700;letter-spacing:.1em;margin-bottom:6px;
+}
+.res-kana{text-align:center;font-size:11px;color:var(--ink-soft);letter-spacing:.3em;margin-bottom:18px;}
+.res-bars{display:grid;gap:10px;margin-bottom:24px;}
+.res-bars .row{display:grid;grid-template-columns:2.6em 1fr 3.2em;align-items:center;gap:10px;font-size:13px;}
+.res-bars .row .k{font-family:'Shippori Mincho',serif;font-weight:700;font-size:15px;}
+.res-bars .row .tr{height:10px;background:var(--washi-deep);border-radius:99px;overflow:hidden;}
+.res-bars .row .tr i{display:block;height:100%;border-radius:99px;width:0;transition:width .9s cubic-bezier(.2,.7,.3,1);}
+.res-bars .row .v{text-align:right;font-weight:700;color:var(--ink-soft);font-size:12px;}
+.res-sec{border-top:1px solid var(--line);padding-top:20px;margin-top:20px;}
+.res-sec h3{
+  font-family:'Shippori Mincho',serif;
+  font-size:15px;letter-spacing:.18em;color:var(--ink);font-weight:700;
+  margin-bottom:10px;display:flex;align-items:center;gap:9px;
+}
+.res-sec h3::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--accent,var(--ember));}
+.res-sec p.story{font-size:14px;line-height:2.05;text-align:justify;}
+.res-sec p.story + p.story{margin-top:.9em;}
+.res-taste{
+  background:var(--washi);border-radius:14px;padding:14px 16px;font-size:13.5px;
+  display:flex;gap:14px;align-items:center;
+}
+.res-taste .t{
+  font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;
+  color:var(--accent,var(--ember));flex:0 0 auto;line-height:1.3;text-align:center;
+}
+.res-taste .t small{display:block;font-family:'Zen Maru Gothic',sans-serif;font-size:9px;letter-spacing:.2em;color:var(--ink-soft);}
+.res-points{display:flex;flex-wrap:wrap;gap:8px;}
+.res-points button{
+  appearance:none;cursor:pointer;font-family:inherit;
+  background:var(--card);border:1.5px solid var(--line);border-radius:999px;
+  padding:8px 14px;font-size:13px;font-weight:700;color:var(--ink);
+  display:inline-flex;align-items:center;gap:6px;transition:border-color .2s;
+}
+.res-points button::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ember);}
+.res-points button:hover{border-color:var(--ember);}
+.res-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:26px;}
+
+/* ---------- 質問のラベル（寄り道／豆知識） ---------- */
+.q-kind{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;letter-spacing:.14em;
+  padding:5px 12px;border-radius:999px;margin-bottom:14px;
+}
+.q-kind::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;}
+.kind-yorimichi{color:var(--kin);background:rgba(150,134,96,.12);}
+.kind-mame{color:var(--ember);background:rgba(192,99,46,.10);}
+.q-opts button.opt-plain{padding-left:16px;}
+.q-opts button.opt-plain .mark{display:none;}
+
+/* ---------- 豆知識カード ---------- */
+.trivia-card{background:linear-gradient(180deg,#fdfaf1,#f8f1e2);}
+.trivia-card .tr-tag{
+  font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;
+  letter-spacing:.08em;text-align:center;margin-bottom:14px;
+  position:relative;padding-bottom:12px;
+}
+.trivia-card .tr-tag::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:34px;height:2px;background:var(--ember);border-radius:2px;}
+.trivia-card .tr-body{font-size:14.5px;line-height:2.05;text-align:justify;color:var(--ink);}
+
+/* ---------- 結果前の演出 ---------- */
+.reveal{text-align:center;padding:44px 22px;}
+.rv-ring{position:relative;width:190px;height:190px;margin:6px auto 26px;animation:rvspin 6s linear infinite;}
+@keyframes rvspin{to{transform:rotate(360deg);}}
+.rv-dot{
+  position:absolute;top:50%;left:50%;width:46px;height:46px;margin:-23px;
+  border-radius:50%;background:var(--c);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.4);
+  transform:rotate(calc(var(--i) * 90deg)) translateY(-70px) rotate(calc(var(--i) * -90deg));
+  opacity:0;animation:rvpop .5s ease forwards;animation-delay:calc(var(--i) * .18s);
+}
+@keyframes rvpop{from{opacity:0;transform:rotate(calc(var(--i) * 90deg)) translateY(-40px) rotate(calc(var(--i) * -90deg)) scale(.6);}to{opacity:1;}}
+.rv-core{
+  position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;
+  border-radius:50%;background:var(--washi);border:1.5px dashed var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:26px;color:var(--ink);
+  animation:rvspin 6s linear infinite reverse;
+}
+.rv-text{font-family:'Shippori Mincho',serif;font-size:16px;letter-spacing:.1em;color:var(--ink-soft);}
+
+/* ---------- 相性 ---------- */
+/* ---------- 五行サイクル図 ---------- */
+.aisho-fig{margin:0 auto 16px;max-width:300px;text-align:center;}
+.gogyo-cycle{width:100%;max-width:280px;height:auto;display:block;margin:0 auto;}
+.gogyo-cycle .gc-k{font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;text-anchor:middle;dominant-baseline:central;}
+.gogyo-cycle .gc-sheng{stroke:#ddd2b6;stroke-width:2;}
+.gogyo-cycle .gc-ke{stroke:#e0d6bd;stroke-width:1.6;stroke-dasharray:3 4;}
+.gogyo-cycle .gc-sheng.on{stroke-width:4;opacity:.9;}
+.gogyo-cycle .gc-ke.on{stroke-width:3;stroke-dasharray:4 4;opacity:.9;}
+.gc-legend{display:flex;gap:16px;justify-content:center;margin-top:8px;font-size:10.5px;color:var(--ink-soft);}
+.gc-legend span{display:inline-flex;align-items:center;gap:5px;}
+.gc-legend i{width:16px;height:0;display:inline-block;}
+.gc-legend .l-sheng{border-top:3px solid #b98a2e;}
+.gc-legend .l-ke{border-top:2px dashed #8a7d64;}
+
+/* ---------- 相性カード ---------- */
+.aisho{display:grid;gap:10px;}
+.ai-card{
+  display:flex;align-items:flex-start;gap:13px;
+  background:var(--washi);border:1px solid var(--line);border-radius:14px;padding:14px 16px;
+  border-left:4px solid var(--c);
+}
+.ai-card.ke{border-left-style:dashed;}
+.ai-card .g{
+  width:40px;height:40px;border-radius:50%;flex:0 0 auto;background:var(--c);margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:19px;font-weight:700;color:#fff;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.ai-card .ai-law{font-size:10.5px;letter-spacing:.1em;color:var(--c);font-weight:700;display:block;margin-bottom:1px;}
+.ai-card b{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;display:block;line-height:1.3;}
+.ai-card small{font-size:12px;color:var(--ink-soft);line-height:1.7;display:block;margin-top:2px;}
+
+/* ---------- 気質と感情 ---------- */
+.kishitsu{
+  display:flex;align-items:center;gap:16px;margin:22px 0 4px;
+  background:var(--washi);border:1px solid var(--line);border-radius:16px;padding:16px 18px;
+  border-left:5px solid var(--c);
+}
+.kishitsu .ki-emo{flex:0 0 auto;text-align:center;line-height:1;}
+.kishitsu .ki-kanji{
+  display:flex;align-items:center;justify-content:center;
+  width:58px;height:58px;border-radius:50%;background:var(--c);color:#fff;
+  font-family:'Shippori Mincho',serif;font-size:30px;font-weight:700;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.kishitsu .ki-emo small{display:block;margin-top:6px;font-size:10px;letter-spacing:.2em;color:var(--ink-soft);}
+.kishitsu .ki-kuchi{font-size:14px;margin-bottom:4px;}
+.kishitsu .ki-kuchi b{font-family:'Shippori Mincho',serif;font-size:17px;color:var(--ink);}
+.kishitsu .ki-note{font-size:12.5px;color:var(--ink-soft);line-height:1.75;}
+
+/* ---------- 箇条書き（性格・セルフケア） ---------- */
+.feat-list{list-style:none;display:grid;gap:8px;}
+.feat-list li{
+  position:relative;padding-left:22px;font-size:14px;line-height:1.7;
+}
+.feat-list li::before{
+  content:"";position:absolute;left:4px;top:.62em;
+  width:8px;height:8px;border-radius:50%;background:var(--accent,var(--ember));
+}
+.feat-list.care li::before{border-radius:2px;transform:rotate(45deg);top:.55em;}
+
+.fatigue-tag{
+  margin-top:12px;display:inline-block;font-size:12px;font-weight:700;color:var(--ink-soft);
+  background:var(--washi);border:1px solid var(--line);border-radius:999px;padding:5px 14px;
+}
+
+/* ---------- 種明かし ---------- */
+.wink{
+  background:var(--washi);border:1px dashed var(--line);border-radius:14px;
+  padding:14px 16px;margin-top:20px;
+}
+.wink p{font-size:13px;line-height:1.95;color:var(--ink-soft);}
+.wink b{color:var(--ember);}
+
+/* ---------- 結果のシェア ---------- */
+.res-share{
+  margin-top:24px;padding:20px 16px;border-radius:16px;text-align:center;
+  background:var(--washi-deep);border:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+}
+.res-share .rs-lead{font-family:'Shippori Mincho',serif;font-size:16px;font-weight:700;letter-spacing:.06em;margin-bottom:2px;}
+.res-share .btn{width:100%;max-width:280px;}
+
+/* ---------- トースト ---------- */
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,20px);
+  background:var(--ink);color:var(--card);font-size:13px;font-weight:700;letter-spacing:.04em;
+  padding:12px 20px;border-radius:999px;box-shadow:0 6px 20px rgba(69,59,44,.25);
+  opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:99;max-width:88vw;text-align:center;
+}
+.toast.on{opacity:1;transform:translate(-50%,0);}
+
+/* ---------- finder: home ---------- */
+.home-sec{margin-bottom:26px;}
+.home-sec h2{
+  font-family:'Shippori Mincho',serif;font-size:17px;font-weight:700;
+  letter-spacing:.12em;margin-bottom:4px;
+}
+.home-sec .hs-lead{font-size:12.5px;color:var(--ink-soft);margin-bottom:14px;}
+.sym-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px;}
+.sym-grid button{
+  appearance:none;cursor:pointer;font-family:inherit;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:13px 15px;transition:border-color .2s,transform .15s;
+  display:flex;align-items:center;gap:10px;
+}
+.sym-grid button:hover{border-color:var(--ember);transform:translateY(-2px);}
+.sym-grid button:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+.sym-grid button .ic{
+  width:30px;height:30px;border-radius:50%;flex:0 0 auto;
+  background:var(--washi);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:14px;color:var(--ember);
+}
+.sym-grid button .nm{font-size:13.5px;font-weight:700;line-height:1.4;}
+.sym-grid button .ar{margin-left:auto;color:var(--ink-soft);font-size:12px;}
+.type-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+@media(max-width:430px){.type-grid{grid-template-columns:1fr;}}
+.type-grid button{
+  appearance:none;cursor:pointer;font-family:inherit;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:14px 16px;display:flex;align-items:center;gap:13px;
+  transition:border-color .2s,transform .15s;
+}
+.type-grid button:hover{border-color:var(--c);transform:translateY(-2px);}
+.type-grid button:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+.type-grid button .g{
+  width:44px;height:44px;border-radius:50%;flex:0 0 auto;background:var(--c);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Shippori Mincho',serif;font-size:20px;font-weight:700;color:#fff;
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
+}
+.type-grid button .nm{font-size:14.5px;font-weight:700;}
+.type-grid button .ct{display:block;font-size:11px;color:var(--ink-soft);font-weight:500;}
+.quiz-invite{
+  margin-top:12px;background:var(--washi);border:1px dashed var(--line);
+  border-radius:14px;padding:12px 16px;font-size:12.5px;color:var(--ink-soft);
+}
+.quiz-invite a{color:var(--ember);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px;}
+
+/* ---------- finder: page ---------- */
+.back-link{
+  appearance:none;border:0;background:none;cursor:pointer;font-family:inherit;
+  font-size:13px;font-weight:700;color:var(--ink-soft);
+  display:inline-flex;align-items:center;gap:7px;margin-bottom:16px;
+  padding:4px 2px;
+}
+.back-link:hover{color:var(--ember);}
+.back-link:focus-visible{outline:2px solid var(--ember);outline-offset:2px;}
+.page-head{margin-bottom:6px;}
+.page-head h2{
+  font-family:'Shippori Mincho',serif;font-size:22px;font-weight:700;
+  letter-spacing:.1em;line-height:1.5;
+}
+.page-head .pg-lead{font-size:13px;color:var(--ink-soft);margin-top:4px;margin-bottom:18px;max-width:36em;}
+.type-head{
+  border-radius:var(--radius);padding:22px;margin-bottom:18px;color:#fff;
+  background:var(--c);position:relative;overflow:hidden;
+}
+.type-head::after{
+  content:attr(data-kanji);position:absolute;right:6px;bottom:-34px;
+  font-family:'Shippori Mincho',serif;font-size:120px;font-weight:700;
+  color:rgba(255,255,255,.13);line-height:1;
+}
+.type-head .th-catch{font-size:11.5px;letter-spacing:.22em;opacity:.9;}
+.type-head .th-name{font-family:'Shippori Mincho',serif;font-size:23px;font-weight:700;letter-spacing:.1em;margin:2px 0 8px;}
+.type-head .th-desc{font-size:12.5px;line-height:1.9;opacity:.95;max-width:34em;position:relative;z-index:1;}
+
+/* ---------- tsubo detail card ---------- */
+.p-list{display:grid;gap:14px;}
+.p-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:22px;
+  box-shadow:0 2px 0 rgba(69,59,44,.05);
+}
+.p-card .p-top{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+.p-card .p-name .kn{font-size:10.5px;letter-spacing:.22em;color:var(--ink-soft);display:block;}
+.p-card .p-name .nm{font-family:'Shippori Mincho',serif;font-size:24px;font-weight:700;letter-spacing:.08em;line-height:1.35;}
+.badge{
+  margin-left:auto;flex:0 0 auto;
+  font-size:10.5px;font-weight:700;letter-spacing:.08em;color:#fff;
+  padding:5px 12px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;
+}
+.badge::before{content:"";width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.85);}
+.badge.all{background:var(--washi-deep);color:var(--ink-soft);border:1px solid var(--line);}
+.badge.all::before{background:var(--ink-soft);}
+.p-fine{font-size:13px;color:var(--ink-soft);margin-bottom:14px;}
+.p-fine b{color:var(--ember);font-weight:700;}
+.d-fig{
+  background:var(--washi);border:1px solid var(--line);border-radius:16px;
+  padding:14px 14px 8px;display:flex;flex-direction:column;align-items:center;margin-bottom:14px;
+}
+.d-fig svg{max-width:270px;width:100%;height:auto;}
+.d-fig .cap{font-size:11px;color:var(--ink-soft);letter-spacing:.06em;padding:4px 0 4px;}
+/* からだの図の描画スタイル */
+.d-fig .skin{fill:#eedcbc;stroke:#8a7d64;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.d-fig .skin2{fill:#e7d2ac;stroke:#8a7d64;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.d-fig .hair{fill:#7c6a4f;stroke:#6d5c43;stroke-width:1.5;stroke-linejoin:round;}
+.d-fig .nail{fill:#f8f0dd;stroke:#b3a181;stroke-width:1;}
+.d-fig .shade{fill:rgba(138,113,76,.14);stroke:none;}
+.d-fig .thin{fill:none;stroke:#a4906b;stroke-width:1.5;stroke-linecap:round;}
+.d-fig .soft{fill:none;stroke:#c2ae87;stroke-width:1.3;stroke-linecap:round;}
+.d-fig .dash{fill:none;stroke:#a4906b;stroke-width:1.3;stroke-dasharray:4 4;}
+.d-fig .lm{font-family:'Zen Maru Gothic',sans-serif;font-size:10px;fill:#8a7d64;letter-spacing:.08em;}
+.d-fig .halo{fill:rgba(192,99,46,.22);animation:pulse 1.8s ease-in-out infinite;transform-origin:center;transform-box:fill-box;}
+.d-fig .dot{fill:var(--ember);stroke:#fff;stroke-width:1.6;}
+.d-fig .pt.pair-sub .halo{animation:none;fill:rgba(192,99,46,.12);}
+.d-fig .pt.pair-sub .dot{fill:var(--ember-soft);}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9;}50%{transform:scale(1.55);opacity:.35;}}
+@media(prefers-reduced-motion:reduce){
+  .d-fig .halo{animation:none;}
+  *{transition-duration:.01ms!important;animation-duration:.01ms!important;}
+}
+.d-sec{margin-bottom:12px;}
+.d-sec h4{
+  font-size:12px;letter-spacing:.2em;color:var(--ink-soft);font-weight:700;
+  margin-bottom:4px;display:flex;align-items:center;gap:7px;
+}
+.d-sec h4::before{content:"";width:14px;height:1.5px;background:var(--ember);}
+.d-sec p{font-size:14px;}
+.d-tip{
+  margin-top:18px;background:var(--washi);border-radius:14px;padding:13px 16px;
+  font-size:12.5px;color:var(--ink-soft);line-height:1.9;
+}
+.d-tip b{color:var(--ink);}
+.page-foot{margin-top:22px;text-align:center;}
+
+/* ---------- detail sheet（診断結果からのクイック表示用） ---------- */
+.sheet-bg{
+  position:fixed;inset:0;background:rgba(52,44,32,.45);
+  opacity:0;pointer-events:none;transition:opacity .25s;z-index:40;
+  backdrop-filter:blur(2px);
+}
+.sheet-bg.on{opacity:1;pointer-events:auto;}
+.sheet{
+  position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);
+  width:min(600px,100%);max-height:88vh;overflow-y:auto;
+  background:var(--card);border-radius:22px 22px 0 0;
+  padding:22px 22px 30px;z-index:41;
+  transition:transform .32s cubic-bezier(.2,.8,.3,1);
+  border:1px solid var(--line);border-bottom:0;
+}
+.sheet.on{transform:translate(-50%,0);}
+@media(min-width:640px){
+  .sheet{bottom:auto;top:50%;border-radius:22px;border-bottom:1px solid var(--line);
+    transform:translate(-50%,-46%) scale(.96);opacity:0;pointer-events:none;max-height:86vh;}
+  .sheet.on{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto;}
+}
+.sheet .close{
+  position:sticky;top:0;float:right;appearance:none;border:0;cursor:pointer;
+  width:34px;height:34px;border-radius:50%;background:var(--washi-deep);
+  color:var(--ink-soft);font-size:16px;line-height:1;font-family:inherit;
+}
+.sheet .close:focus-visible{outline:2px solid var(--ember);}
+.sheet .p-card{border:0;box-shadow:none;padding:4px 0 0;}
+
+/* ---------- footer ---------- */
+.foot{margin-top:44px;border-top:1px solid var(--line);padding-top:20px;}
+.foot .brand{
+  font-family:'Shippori Mincho',serif;font-size:15px;letter-spacing:.34em;
+  text-align:center;margin-bottom:8px;color:var(--ink);
+}
+.foot .tag{text-align:center;font-size:10.5px;letter-spacing:.2em;color:var(--ink-soft);margin-bottom:14px;}
+.foot .note{text-align:center;max-width:36em;margin:0 auto;}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+
+  <header>
+    <p class="eyebrow">温考知身 ｜ わたしの五行タイプ</p>
+    <h1>わたしの体質と、<br>ツボの地図。</h1>
+    <p class="lead">東洋医学の「陰陽五行」の考えかたをもとに、自分の体質タイプを知って、いまの不調に合うツボを見つける。暮らしのなかで使える、小さな道具箱です。</p>
+  </header>
+
+  <nav class="mode-nav" aria-label="ツールの切り替え">
+    <button id="nav-shindan" class="on" onclick="switchMode('shindan')">わたしの五行タイプ<span class="sub">五行チェック ｜ 約3分</span></button>
+    <button id="nav-tsubo" onclick="switchMode('tsubo')">ツボをさがす<span class="sub">症状・タイプから</span></button>
+  </nav>
+
+  <!-- ================= 診断 ================= -->
+  <section id="view-shindan">
+    <div id="shindan-stage"></div>
+  </section>
+
+  <!-- ================= ツボ検索 ================= -->
+  <section id="view-tsubo" hidden>
+    <div id="finder-stage"></div>
+  </section>
+
+  <footer class="foot">
+    <p class="brand">温 考 知 身</p>
+    <p class="tag">温もりと知恵を、暮らしに。</p>
+    <p class="note">このページは、東洋医学の知恵をセルフケアに活かすための読みものです。診断や治療を目的としたものではありません。つらい症状が続くときは、お近くの鍼灸院や医療機関にご相談ください。</p>
+  </footer>
+</div>
+
+<!-- detail sheet（診断結果からのクイック表示用） -->
+<div class="sheet-bg" id="sheet-bg" onclick="closeSheet()"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="ツボの詳細">
+  <button class="close" onclick="closeSheet()" aria-label="とじる">✕</button>
+  <div id="sheet-body"></div>
+</div>
+
+<script>
+/* 図（からだの地図）を表示するか。イラスト素材が揃うまで隠したいときは false に */
+const SHOW_FIG = true;
+</script>
+<script>
+/* ================= データ：タイプ ================= */
+const TYPES = {
+  moku:{
+    kanji:'木', kana:'き', name:'木タイプ', catch:'リーダー気質のがんばり屋、なのに本当は誰より繊細', color:'#5d7f5f',
+    desc:'木が空へ伸びるように、向上心があって積極的。しっかり者でまとめ役をまかされやすいタイプです。',
+    story:{
+      kokoro:'決めたら、動く。頼まれたら、引き受ける。気づけばまとめ役——そんな場面が多いのではないでしょうか。目標があるときのあなたは、とにかく速い。ただ、その速さの裏側はけっこう繊細で、物事が思いどおりに進まないと、人知れずイライラをため込みます。責任感が強いぶん、予定表のなかで「休む」だけが、いつも後回しになりがちです。',
+      karada:'がんばりの疲れは、頭・目・肩——「からだの上のほう」に集まります。夕方、目の奥が重い。気づくと肩に力が入っている。布団に入っても、頭だけが冴えている。ふたつ以上に心あたりがあれば、それは木タイプの疲れかたです。気が頭にのぼるぶん足もとは冷えやすく、「頭は熱く、足は冷たい」がお疲れサイン。',
+      totonoe:'必要なのは、がんばりをやめることではなく、「ゆるめる時間」を先に予定へ入れてしまうこと。1時間に1回、席を立つ。頭を使った日は、目もとを温める。のぼった気を足へ下ろすつもりで、寝る前の足湯もよく合います。イライラしてきたら、それはからだからの「休みどき」の合図です。'
+    },
+    taste:{t:'酸味',d:'梅干し・お酢のもの・柑橘類など。張りつめた一日の締めくくりに、キュッとひと口。'},
+    meridian:'木タイプのめぐりを支える「肝（かん）」のエネルギーの通り道は、足の親指からはじまり、足の内側をとおって、からだをのぼっていきます。その道すじの上にある、基本の5つのツボです。',
+    points:['taisho','kokan','daiton','chuho','kyokusen'],
+    kw:'目・爪・筋肉・春・青',
+    kishitsu:{emotion:'怒', kuchiguse:'〜であるべき', note:'まじめで、目的意識が高い。小さな達成感で満たされるタイプ。'},
+    personality:['リーダーシップがあり、積極的','計画や目標を立てるのが好き','向上心が高く、成長するのが好き','やると決めたことは、最後までやり抜く'],
+    carecues:['1時間に1回、休憩をはさむ','疲れた週末は、自然のなかでぼーっと','頭を使いすぎた日は、目もとを温める','ストレッチで、のぼった気を足へ下ろす'],
+    fatigue:'疲れを溜め込む「疲労」タイプ'
+  },
+  tsuchi:{
+    kanji:'土', kana:'つち', name:'土タイプ', catch:'おっとりマイペースの癒し系、でも悩みはひとりで抱え込みがち', color:'#b98a2e',
+    desc:'癒し系でやさしく、縁の下の力持ちとしてチーム全体を見られるタイプです。',
+    story:{
+      kokoro:'頼まれると、断れない。相手の気持ちをくみ取るのが上手で、気づけば聞き役や、みんなを支える側にまわっている。そんなあなたのやさしさは、その場の空気を静かに支えています。ただ、済んだことをあとから何度も考え直したり、悩みごとを抱えたまま夜を迎えたり。やさしい人ほど、自分のことは順番の最後になってしまうものです。',
+      karada:'考えごとは、まっすぐお腹に届きます。悩みがあると食欲が消える日もあれば、逆に手が止まらなくなる日もある。食後の強い眠気、なんとなく重いからだ、夕方のむくみ。口内炎や口角炎ができやすいのも、胃腸ががんばりすぎているサインです。',
+      totonoe:'調子の立て直しは、「食べかた」から。ごはんはゆっくり、よく噛んで。ときには意識して、お腹を空っぽにする時間もつくってみてください。冷たいもの・脂っこいものは、少しひかえめに。頭のなかの悩みごとは、紙に書き出すと重さが変わります。お腹が重い日は、白湯をひと口ずつ。それだけでも十分です。'
+    },
+    taste:{t:'甘味',d:'おにぎり・おはぎ・バナナなど。胃腸にやさしい甘味で、エネルギーをそっと補って。'},
+    meridian:'土タイプのめぐりを支える「脾（ひ）」のエネルギーの通り道は、足の親指の内側からはじまり、土踏まずのふちをとおって、からだをのぼっていきます。その道すじから、基本の5つを選びました。',
+    points:['taihaku','inryosen','shokyu','daito','inpaku'],
+    kw:'消化器・口・唇・季節の変わり目・黄',
+    kishitsu:{emotion:'思', kuchiguse:'〜なんですけど', note:'あれこれ思い悩む。結論のないおしゃべりが、じつは楽しいタイプ。'},
+    personality:['おっとりして、優しい癒し系','相手の気持ちをくむのが得意','悩みごと・考えごとが多い','優柔不断で、選ぶのに時間がかかる'],
+    carecues:['ごはんはゆっくり、よく噛んで','意識して、お腹を空っぽにする時間を','冷たいもの・脂っこいものはひかえめに','お腹が重い日は、白湯をひと口ずつ'],
+    fatigue:'気分で揺れる「疲労感」タイプ'
+  },
+  kin:{
+    kanji:'金', kana:'きん', name:'金タイプ', catch:'空気を読むロマンチスト、じつは気分の波が大きい', color:'#968660',
+    desc:'好奇心旺盛で感性ゆたか。緻密な計画より、その場のひらめきを大切にするタイプです。',
+    story:{
+      kokoro:'おもしろそう、と思ったら心が先に動くタイプ。緻密な計画より、その場のひらめき。空気を読むのも上手なので、まわりには明るい人として映ります。でも本人の内側では、気分の波は意外と大きい。疲れがたまると、急にひとりになりたくなる。その「ひとりの時間」はわがままではなく、金タイプにとっての充電です。',
+      karada:'疲れやストレスの出口は、のど・鼻・肌。外の空気にふれる場所です。季節の変わり目に決まって風邪をひく人、乾燥や肌荒れが気になる人は、まずこのタイプを疑ってみてください。じつは寒がりで、姿勢が崩れると呼吸まで浅くなる——そんなつながりも持っています。',
+      totonoe:'合うのは、「めぐらせて、外へ出す」ケア。歩いて、呼吸を深くする。おしゃべりや歌で、こもった気を発散する。ひとつを長くがんばり続けるより、こまめな気分転換をはさむほうが力が出るタイプです。乾燥の季節の保湿と、首もとを冷やさない工夫も、どうぞ忘れずに。'
+    },
+    taste:{t:'辛味',d:'薬味たっぷりのおうどん・スープカレーなど。ぴりっとした辛味で、めぐりに目を覚ましてもらいましょう。'},
+    meridian:'金タイプのめぐりを支える「肺（はい）」のエネルギーの通り道は、胸から腕の内側をとおって、手の親指へと流れます。手もとでいつでもケアしやすいのが、このタイプのツボの特長です。',
+    points:['taien','shakutaku','gyosai','keikyo','shosho'],
+    kw:'呼吸器・鼻・皮膚・秋・白',
+    kishitsu:{emotion:'悲', kuchiguse:'あ〜あ', note:'感性ゆたか。ドラマチックなサプライズで、ぱっと元気になるタイプ。'},
+    personality:['好奇心旺盛で、チャレンジが好き','その場のひらめき・感性を大切にする','いろいろなことの同時進行が得意','ポジティブとネガティブの差が大きい'],
+    carecues:['ウォーキングなどの有酸素運動','おしゃべりや歌で、こもった気を発散','こまめに気分転換をはさむ','首もとを冷やさない・乾燥の季節は保湿'],
+    fatigue:'気分で揺れる「疲労感」タイプ'
+  },
+  mizu:{
+    kanji:'水', kana:'みず', name:'水タイプ', catch:'愛され上手のコツコツ屋、でも心配ごとを先回りしがち', color:'#4b628c',
+    desc:'控えめだけれど、誰からも愛されるキャラクター。安定感が持ち味のタイプです。',
+    story:{
+      kokoro:'ふだんは一歩引いた場所にいて、いざというときに頼りにされる。新しい挑戦より、慣れたやり方でコツコツ積み上げるほうが性に合う。その慎重さは、まわりから静かに信頼されています。いっぽうで、心配ごとを先回りして考えすぎて、動き出す前に疲れてしまう夜もある。それも、水タイプによくある景色です。',
+      karada:'エネルギーを貯めて、少しずつ使うタイプ。だから無理が続くと、疲れが底のほうに沈んで、抜けにくくなります。朝いちばんの腰の重さ。夜中にふと目が覚めること。髪のパサつき、手足のほてり。疲れが顔色に出やすいのも、この体質の特徴です。',
+      totonoe:'養生の柱は、なによりも睡眠。疲れた日は、何をおいても早めに布団へ。あたたかいお味噌汁でほどよい塩気を補って、固まった腰まわりはストレッチでゆるめる。しっかり動いて、しっかり休む。そのメリハリが、コツコツ屋の底力を守ります。'
+    },
+    taste:{t:'鹹味',d:'お味噌汁・昆布茶など、ほどよい塩気とミネラル。からだの底のほうを、静かに支える味です。'},
+    meridian:'水タイプのめぐりを支える「腎（じん）」のエネルギーの通り道は、足の裏からはじまり、内くるぶしのまわりをめぐって、上へとつづきます。その途中にある、基本の5つのツボです。',
+    points:['taikei','yusen','nenkoku','fukuryu','inkoku'],
+    kw:'耳・骨・髪・腰・冬・黒',
+    kishitsu:{emotion:'恐', kuchiguse:'本当？', note:'臆病で心配性。いつもと同じ状況に、いちばん安心するタイプ。'},
+    personality:['控えめだけど、いざという時に頼れる','安定感があり、コツコツが得意','新しい挑戦は、少し苦手','慎重に、着実に物事を進める'],
+    carecues:['疲れた日は、何より早めの睡眠','あたたかいお味噌汁で塩気を補う','腰まわりはストレッチでゆるめる','しっかり動いて、しっかり休む'],
+    fatigue:'疲れを溜め込む「疲労」タイプ'
+  }
+};
+
+/* ================= 診断の設定（ここだけで長さを調整できます） =================
+   N_PER_TYPE … 各タイプから何問ずつ出すか（プールは各タイプ8問。7なら計28問）
+   DUMMY_COUNT … 診断に関係しない“寄り道”の質問を何問まぜるか（0で無し）
+   ※合計はおおよそ N_PER_TYPE×4 + DUMMY_COUNT 問。 */
+const QUIZ_CFG = { N_PER_TYPE: 7, DUMMY_COUNT: 2 };
+
+/* ================= データ：設問プール（各タイプ8問／ここから抽選） =================
+   温考知身の正式なタイプ別チェックシートをベースにしています。 */
+const POOL = {
+  moku:[
+    'リーダーやまとめ役を、まかされることが多い。',
+    '「頑張り屋さん」と言われることが、よくある。',
+    '計画をきちんと立てて、決めたことは最後までやり抜きたい。',
+    'ストレスがたまると、イライラしやすい。',
+    '頭痛や肩こりに、悩まされることが多い。',
+    '目が疲れやすい。',
+    '冷え性なのに、顔や頭はのぼせている感じがする。',
+    '酸っぱい食べ物に、はっきりした好き嫌いがある。'
+  ],
+  tsuchi:[
+    '縁の下の力持ちとして、人を支えるのが好き。',
+    '「癒し系」「優しい」と言われることが、よくある。',
+    'あれこれ思い悩んだり、考えごとをしたりすることが多い。',
+    'ストレスがたまると、つい食べすぎ・飲みすぎてしまう。',
+    'からだが重だるかったり、むくみが気になったりする。',
+    '食後に、強い眠気が襲ってくる。',
+    '口内炎や口角炎が、できやすい。',
+    '甘い食べ物に、はっきりした好き嫌いがある。'
+  ],
+  kin:[
+    '興味や関心のあることには、すぐチャレンジしたくなる。',
+    '「行動力がある」と言われることが、よくある。',
+    '息抜き上手で、気分転換をするのが好き。',
+    'ストレスがたまると、肌やのどの調子が悪くなる。',
+    '風邪をひきやすい。',
+    '姿勢がくずれやすく、猫背ぎみだと思う。',
+    '鼻がつまったり、呼吸が浅くなったりしやすい。',
+    '辛い食べ物に、はっきりした好き嫌いがある。'
+  ],
+  mizu:[
+    '新しいことより、いつも通りコツコツ進めるのが得意。',
+    '「疲れてる？」と、顔を見て言われがち。',
+    '心配ごとが多く、慎重でおどおどしてしまうことがある。',
+    'ストレスがたまると、何もしたくなくなる。',
+    '足腰がだるかったり、手足がほてったりする。',
+    '疲れが、なかなか抜けない。',
+    '耳が遠く感じたり、聞き返したりすることがある。',
+    'しょっぱい食べ物に、はっきりした好き嫌いがある。'
+  ]
+};
+
+/* ================= データ：寄り道の質問（診断には関係しません／採点なし） =================
+   温度・時間・色など、こたえていて心地いい“余白”の質問。
+   最後の結果画面で、そっと種明かしをします。 */
+const DUMMY = [
+  {q:'いま、なんの温度が恋しい？', opts:['湯気の立つお茶','日なたの縁側','ひざ掛けのぬくもり','熱いお風呂']},
+  {q:'思わず手が伸びるのは、どれ？', opts:['あたたかい湯呑み','読みかけの文庫本','ちいさな甘いもの','窓の外のながめ']},
+  {q:'今夜すこし時間があいたら？', opts:['早めに、眠る','夜の散歩に出る','湯船にじっくり','だれかと話す']},
+  {q:'好きな空の時間は？', opts:['明けがた','昼下がり','夕暮れ','真夜中']},
+  {q:'いま選ぶなら、どの色？', opts:['若葉のみどり','土のきいろ','生成りのしろ','藍のあお']}
+];
+
+/* 豆知識は、診断の集中をさまたげないよう現在オフにしています（データは残さず空に） */
+const TRIVIA = [];
+
+/* ================= データ：五行の相性（相生・相剋） =================
+   陰陽五行の「相生（そうじょう＝育てあう）」と「相剋（そうこく＝引き締めあう）」に
+   もとづいています。この診断は火を除いた4タイプで見るため、各タイプについて
+   4タイプの範囲におさまる関係を1つずつ選んでいます。
+   role: nourished=相手に育てられる / nourishing=相手を育てる /
+         restrained=相手に引き締められる / restraining=相手を引き締める
+   （五行配当の最終確認は高橋さんにお願いします） */
+const RELATION = {
+  moku:  { sheng:{t:'mizu',  law:'水生木', role:'nourished'},  ke:{t:'kin',   law:'金剋木', role:'restrained'} },
+  tsuchi:{ sheng:{t:'kin',   law:'土生金', role:'nourishing'}, ke:{t:'moku',  law:'木剋土', role:'restrained'} },
+  kin:   { sheng:{t:'tsuchi',law:'土生金', role:'nourished'},  ke:{t:'moku',  law:'金剋木', role:'restraining'} },
+  mizu:  { sheng:{t:'kin',   law:'金生水', role:'nourished'},  ke:{t:'tsuchi',law:'土剋水', role:'restrained'} }
+};
+/* 五行サイクル図の描画用（火をふくむ5点。位置は固定） */
+const GOGYO_NODES = {
+  fire:  {kanji:'火', name:'火', color:'#c0632e', x:110, y:24,  faded:true},
+  tsuchi:{kanji:'土', x:186, y:79},
+  kin:   {kanji:'金', x:157, y:169},
+  mizu:  {kanji:'水', x:63,  y:169},
+  moku:  {kanji:'木', x:34,  y:79}
+};
+const SHENG_EDGES = [['fire','tsuchi'],['tsuchi','kin'],['kin','mizu'],['mizu','moku'],['moku','fire']];
+const KE_EDGES = [['moku','tsuchi'],['tsuchi','mizu'],['mizu','fire'],['fire','kin'],['kin','moku']];
+
+const OPTS = [
+  {label:'あてはまる', v:3},
+  {label:'ややあてはまる', v:2},
+  {label:'あまりあてはまらない', v:1},
+  {label:'あてはまらない', v:0}
+];
+
+/* ================= データ：症状の入口 ================= */
+const SYMPTOMS = [
+  {tag:'頭',           ic:'頭', lead:'ズキズキする、重い、ぼーっとする。頭の疲れをゆるめる場所から。'},
+  {tag:'目',           ic:'目', lead:'眼精疲労やかすみ目に。画面を見つづけた日のためのツボです。'},
+  {tag:'肩・首',       ic:'肩', lead:'こり、寝違え、重だるさ。肩と首まわりをゆるめていきます。'},
+  {tag:'腰・脚',       ic:'腰', lead:'腰の重さ、脚のだるさ。下半身のめぐりを助けるツボを集めました。'},
+  {tag:'胃腸',         ic:'胃', lead:'胃もたれ、食べすぎ、便秘や下痢。お腹をいたわる基本のツボです。'},
+  {tag:'冷え・むくみ', ic:'冷', lead:'手足の冷えと、夕方のむくみ。温めと水はけの入口です。'},
+  {tag:'眠り・疲れ',   ic:'眠', lead:'寝つけない夜と、抜けない疲れに。休む力を助けるツボです。'},
+  {tag:'こころ',       ic:'心', lead:'イライラ、そわそわ、不安な夜。気を鎮める場所をどうぞ。'},
+  {tag:'風邪・のど・鼻',ic:'風', lead:'ひきはじめのゾクゾク、のどの痛み、鼻づまりに。'},
+  {tag:'口・肌',       ic:'肌', lead:'口内炎や乾燥肌に。うるおいと熱のバランスをみるツボです。'},
+  {tag:'生理',         ic:'月', lead:'生理のつらさ、血のめぐりに。冷やさず温めるのが基本です。'}
+];
+</script>
+<script>
+/* ================= からだの地図（SVG） =================
+   イラスト素材が用意できたら、各ビューを
+   {cap:'…', img:'画像URL', vb:'0 0 220 240'} の形に差し替えられます。
+   （img指定時はSVGの代わりに画像を表示。ツボ座標の再調整はご相談ください） */
+const VIEWS = {
+  footInner:{cap:'右足を内側から見た図', vb:'0 0 220 200', body:`
+    <path class="skin" d="M134,8 C132,32 129,58 126,80 C118,96 104,110 86,120 C64,132 44,140 30,143 C18,145 11,150 12,157 C13,164 21,169 33,168 C58,170 84,166 102,158 C118,151 132,150 146,155 C160,160 174,164 183,158 C192,152 195,140 193,126 C191,110 186,96 183,82 C181,66 183,40 184,8 Z"/>
+    <path class="shade" d="M96,160 C114,152 132,150 148,155 L147,160 C132,156 116,157 99,164 Z"/>
+    <ellipse class="shade" cx="181" cy="140" rx="10" ry="14"/>
+    <ellipse class="skin2" cx="152" cy="92" rx="11" ry="9.5"/>
+    <path class="soft" d="M176,48 C175,64 176,78 181,92"/>
+    <path class="soft" d="M46,152 C52,146 58,143 64,142"/>
+    <ellipse class="nail" cx="18" cy="152" rx="4.5" ry="5.5"/>
+    <path class="dash" d="M152,103 L152,116"/>
+    <text class="lm" x="152" y="140" text-anchor="middle">内くるぶし</text>
+    <text class="lm" x="28" y="190" text-anchor="middle">つま先</text>
+    <text class="lm" x="186" y="190" text-anchor="middle">かかと</text>`},
+  footTop:{cap:'右足の甲を上から見た図', vb:'0 0 200 240', body:`
+    <path class="skin" d="M82,8 C78,42 72,84 62,124 C55,152 50,172 49,190 C48,208 52,224 62,230 C72,236 82,228 83,210 C84,205 86,205 87,209 C88,224 93,233 101,233 C109,233 113,224 112,209 C113,204 115,204 116,208 C117,220 122,228 129,227 C136,226 138,218 136,206 C137,202 139,202 140,206 C141,215 145,221 151,220 C157,219 159,212 157,202 C158,199 160,199 161,202 C162,209 166,213 171,211 C176,209 177,202 174,194 C170,178 164,156 156,128 C148,96 142,50 140,8 Z"/>
+    <path class="soft" d="M96,70 C92,112 86,152 79,188"/>
+    <path class="soft" d="M102,72 C102,116 101,162 100,204"/>
+    <path class="soft" d="M108,72 C112,116 118,160 124,203"/>
+    <path class="shade" d="M60,32 C82,40 118,40 136,32 L136,38 C118,46 82,46 61,38 Z"/>
+    <ellipse class="nail" cx="66" cy="222" rx="8" ry="5.5"/>
+    <ellipse class="nail" cx="100" cy="225" rx="5" ry="4"/>
+    <ellipse class="nail" cx="128" cy="219" rx="4.5" ry="3.5"/>
+    <ellipse class="nail" cx="150" cy="213" rx="4" ry="3"/>
+    <ellipse class="nail" cx="168" cy="205" rx="3.5" ry="2.8"/>
+    <text class="lm" x="12" y="180">親指側</text>
+    <text class="lm" x="152" y="60">足首側は上</text>`},
+  footSole:{cap:'右足のうらの図', vb:'0 0 200 240', body:`
+    <path class="skin" d="M64,36 C60,22 68,9 82,9 C95,9 103,19 103,31 C104,19 113,13 121,16 C129,19 131,29 127,38 C132,33 139,34 142,40 C145,45 143,52 138,55 C143,53 149,56 150,62 C151,67 147,72 142,73 C147,73 151,77 151,82 C151,87 147,90 143,89 C146,104 145,120 143,134 C141,166 132,196 118,214 C108,226 88,226 80,212 C68,192 60,160 58,126 C56,94 58,62 64,36 Z"/>
+    <ellipse class="shade" cx="100" cy="80" rx="34" ry="15"/>
+    <ellipse class="shade" cx="99" cy="198" rx="19" ry="18"/>
+    <path class="soft" d="M76,120 C72,140 74,160 82,178"/>
+    <path class="soft" d="M92,52 C88,60 86,68 86,74"/>
+    <text class="lm" x="30" y="232">かかと側は下</text>`},
+  handBack:{cap:'右手の甲の図（親指は左）', vb:'0 0 200 240', body:`
+    <path class="skin" d="M60,236 C52,210 46,186 42,164 C38,146 28,136 22,124 C18,116 22,108 30,108 C38,108 44,116 48,126 C52,134 57,141 63,146 C61,122 60,94 60,70 C60,60 65,54 71,54 C77,54 82,60 82,70 L82,110 C83,115 85,115 86,110 L86,48 C86,40 91,34 97,34 C103,34 108,40 108,48 L108,110 C109,115 111,115 112,110 L112,52 C112,44 117,38 123,38 C129,38 134,44 134,52 L134,112 C135,117 137,117 138,112 L138,70 C138,62 142,57 148,57 C154,57 158,62 158,70 C158,104 156,140 151,170 C146,196 142,218 138,236 Z"/>
+    <ellipse class="nail" cx="71" cy="63" rx="5" ry="6"/>
+    <ellipse class="nail" cx="97" cy="45" rx="5" ry="6"/>
+    <ellipse class="nail" cx="123" cy="48" rx="5" ry="6"/>
+    <ellipse class="nail" cx="148" cy="65" rx="4.5" ry="5.5"/>
+    <ellipse class="nail" cx="27" cy="115" rx="4" ry="5.5" transform="rotate(-40 27 115)"/>
+    <path class="soft" d="M66,124 C71,119 77,119 82,124"/>
+    <path class="soft" d="M91,120 C96,115 101,115 106,120"/>
+    <path class="soft" d="M116,122 C121,117 126,117 131,122"/>
+    <path class="soft" d="M140,126 C144,122 149,122 153,126"/>
+    <path class="soft" d="M74,146 C76,178 74,206 70,230"/>
+    <path class="soft" d="M122,146 C122,178 118,206 113,232"/>
+    <path class="dash" d="M56,216 C88,224 116,224 142,216"/>
+    <text class="lm" x="14" y="96">親指</text>
+    <text class="lm" x="146" y="236">手首側は下</text>`},
+  handPalm:{cap:'右手のひらの図（親指は左）', vb:'0 0 200 250', body:`
+    <path class="skin" d="M60,246 C52,220 48,200 46,182 C38,168 26,152 20,136 C16,126 20,118 28,118 C36,118 42,126 46,136 C50,144 55,151 61,156 C59,130 58,102 58,78 C58,68 63,62 69,62 C75,62 80,68 80,78 L80,120 C81,125 83,125 84,120 L84,56 C84,48 89,42 95,42 C101,42 106,48 106,56 L106,120 C107,125 109,125 110,120 L110,60 C110,52 115,46 121,46 C127,46 132,52 132,60 L132,122 C133,127 135,127 136,122 L136,78 C136,70 140,65 146,65 C152,65 156,70 156,78 C156,112 154,148 149,178 C145,202 141,224 137,246 Z"/>
+    <path class="soft" d="M64,122 C86,140 112,144 134,134"/>
+    <path class="soft" d="M62,140 C82,154 104,158 124,152"/>
+    <path class="soft" d="M74,122 C67,146 65,168 69,188"/>
+    <ellipse class="nail" cx="24" cy="123" rx="4" ry="5" transform="rotate(-38 24 123)"/>
+    <path class="dash" d="M56,198 C84,206 116,206 142,198"/>
+    <text class="lm" x="100" y="224" text-anchor="middle">手首のシワ</text>
+    <text class="lm" x="12" y="108">親指</text>
+    <text class="lm" x="160" y="108">小指</text>`},
+  armInner:{cap:'右腕の内側（手のひらを上に向けた図）', vb:'0 0 220 200', body:`
+    <path class="skin" d="M14,66 C60,56 110,50 152,44 C168,41 184,35 196,29 C204,25 212,23 218,23 L218,169 C210,166 200,161 188,155 C172,147 130,141 76,139 C52,138 30,136 14,134 Z"/>
+    <path class="dash" d="M170,34 C175,70 177,110 173,150"/>
+    <ellipse class="shade" cx="176" cy="92" rx="9" ry="46"/>
+    <path class="soft" d="M22,70 C20,92 20,112 22,130"/>
+    <path class="soft" d="M60,96 C100,92 140,90 164,92"/>
+    <text class="lm" x="20" y="160">手首側</text>
+    <text class="lm" x="172" y="186" text-anchor="middle">ひじのシワ</text>`},
+  faceFront:{cap:'顔を正面から見た図', vb:'0 0 220 240', body:`
+    <path class="skin2" d="M92,184 C93,200 94,210 92,220 L128,220 C126,210 127,200 128,184 Z"/>
+    <ellipse class="skin2" cx="42" cy="108" rx="8" ry="14"/>
+    <ellipse class="skin2" cx="178" cy="108" rx="8" ry="14"/>
+    <path class="skin" d="M110,14 C154,14 178,48 178,94 C178,120 170,146 156,164 C144,180 128,190 110,190 C92,190 76,180 64,164 C50,146 42,120 42,94 C42,48 66,14 110,14 Z"/>
+    <path class="hair" d="M110,10 C156,10 182,44 182,92 C182,100 181,106 180,110 C176,84 168,66 156,56 C142,45 126,44 110,44 C94,44 78,45 64,56 C52,66 44,84 40,110 C39,106 38,100 38,92 C38,44 64,10 110,10 Z"/>
+    <path class="thin" d="M74,78 C84,72 96,72 104,77"/>
+    <path class="thin" d="M116,77 C124,72 136,72 146,78"/>
+    <path class="thin" d="M76,96 C84,90 96,90 102,96"/>
+    <path class="thin" d="M118,96 C124,90 136,90 144,96"/>
+    <path class="soft" d="M80,103 C88,107 96,107 101,102"/>
+    <path class="soft" d="M119,102 C126,107 136,107 142,103"/>
+    <path class="thin" d="M106,106 C104,124 101,136 104,144 C107,149 114,149 117,144"/>
+    <path class="soft" d="M92,164 C100,160 120,160 128,164"/>
+    <path class="soft" d="M96,171 C104,175 116,175 124,171"/>
+    <text class="lm" x="24" y="30">髪の生えぎわ</text>
+    <path class="dash" d="M62,34 C80,40 96,43 104,44"/>`},
+  headSide:{cap:'頭を横から見た図（顔は右向き）', vb:'0 0 220 240', body:`
+    <path class="skin2" d="M96,192 C98,208 100,220 98,232 L150,232 C146,218 144,206 145,196 Z"/>
+    <path class="skin" d="M116,200 C100,196 88,188 78,176 C64,160 56,138 56,112 C56,66 84,30 126,30 C160,30 186,54 190,90 C192,110 187,124 179,134 C176,139 176,143 178,148 C182,152 184,157 181,161 C179,163 176,163 174,162 C176,168 178,172 175,176 C173,178 170,178 168,178 C170,183 170,188 166,191 C160,196 150,198 142,197 C133,196 124,198 116,200 Z"/>
+    <path class="hair" d="M126,26 C86,26 54,62 52,110 C50,140 58,164 72,180 C64,160 60,138 60,114 C62,74 88,44 126,44 C156,44 178,62 186,86 C188,74 186,60 178,48 C166,32 148,26 126,26 Z"/>
+    <path class="skin2" d="M104,120 C96,116 92,124 95,134 C98,146 108,152 114,146 C118,142 117,133 112,127 C109,123 106,121 104,120 Z"/>
+    <path class="soft" d="M103,128 C102,134 105,140 109,142"/>
+    <path class="thin" d="M160,102 C166,98 173,98 177,102"/>
+    <path class="soft" d="M158,92 C166,87 176,88 182,93"/>
+    <text class="lm" x="28" y="224">うしろ側は左</text>`},
+  torsoFront:{cap:'からだの正面の図', vb:'0 0 220 240', body:`
+    <path class="skin" d="M96,6 C97,20 96,30 88,38 C66,46 44,54 34,70 C27,80 23,92 22,108 C21,148 20,190 18,232 L50,232 C52,190 54,148 56,110 C57,96 58,88 61,84 C63,130 61,180 63,232 L157,232 C159,180 157,130 159,84 C162,88 163,96 164,110 C166,148 168,190 170,232 L202,232 C200,190 199,148 198,108 C197,92 193,80 186,70 C176,54 154,46 132,38 C124,30 123,20 124,6 Z"/>
+    <path class="thin" d="M66,60 C82,68 96,70 106,66"/>
+    <path class="thin" d="M154,60 C138,68 124,70 114,66"/>
+    <path class="thin" d="M94,46 C100,54 120,54 126,46"/>
+    <path class="soft" d="M72,96 C84,112 100,116 108,112"/>
+    <path class="soft" d="M148,96 C136,112 120,116 112,112"/>
+    <path class="dash" d="M110,96 L110,176"/>
+    <circle class="thin" cx="110" cy="186" r="5"/>
+    <text class="lm" x="124" y="102">みぞおち</text>
+    <text class="lm" x="124" y="190">おへそ</text>`},
+  backNeck:{cap:'首と背中を後ろから見た図', vb:'0 0 220 240', body:`
+    <path class="skin2" d="M92,78 C94,92 92,102 86,110 L134,110 C128,102 126,92 128,78 Z"/>
+    <path class="skin" d="M86,108 C60,116 36,124 26,142 C18,156 15,176 16,204 L16,232 L204,232 L204,204 C205,176 202,156 194,142 C184,124 160,116 134,108 C120,104 100,104 86,108 Z"/>
+    <path class="skin" d="M110,8 C136,8 152,26 152,50 C152,64 147,75 140,82 L80,82 C73,75 68,64 68,50 C68,26 84,8 110,8 Z"/>
+    <path class="hair" d="M110,6 C138,6 154,25 154,50 C154,58 152,64 149,69 C138,62 124,58 110,58 C96,58 82,62 71,69 C68,64 66,58 66,50 C66,25 82,6 110,6 Z"/>
+    <path class="soft" d="M62,140 C70,158 72,176 68,194"/>
+    <path class="soft" d="M158,140 C150,158 148,176 152,194"/>
+    <path class="dash" d="M110,118 L110,198"/>
+    <text class="lm" x="24" y="62">髪の生えぎわ</text>
+    <path class="dash" d="M62,64 C78,62 92,62 100,64"/>
+    <text class="lm" x="110" y="222" text-anchor="middle">背骨にそって下へ</text>`},
+  legFront:{cap:'右脚を正面から見た図（内側は左）', vb:'0 0 220 240', body:`
+    <path class="skin" d="M62,6 C60,44 60,84 66,118 C70,140 74,176 74,232 L142,232 C142,176 146,140 150,118 C156,84 156,44 152,6 Z"/>
+    <circle class="skin2" cx="107" cy="110" r="19"/>
+    <path class="soft" d="M92,132 C100,139 114,139 122,132"/>
+    <path class="soft" d="M84,30 C82,56 84,80 90,96"/>
+    <path class="soft" d="M108,142 C106,172 104,202 104,230"/>
+    <path class="soft" d="M78,152 C74,172 74,196 78,216"/>
+    <text class="lm" x="28" y="20">内側</text>
+    <text class="lm" x="168" y="20">外側</text>
+    <text class="lm" x="107" y="114" text-anchor="middle">お皿</text>`},
+  legBack:{cap:'右脚を後ろから見た図（内側は左）', vb:'0 0 220 240', body:`
+    <path class="skin" d="M64,6 C62,46 62,90 68,124 C72,152 76,186 76,232 L142,232 C142,186 146,152 150,124 C156,90 156,46 152,6 Z"/>
+    <path class="dash" d="M74,116 C96,124 122,124 144,116"/>
+    <path class="soft" d="M86,56 C84,82 82,100 80,110"/>
+    <path class="soft" d="M132,56 C134,82 136,100 138,110"/>
+    <path class="soft" d="M86,138 C80,160 80,186 86,206"/>
+    <path class="soft" d="M132,138 C138,160 138,186 132,206"/>
+    <path class="soft" d="M108,212 L108,232"/>
+    <text class="lm" x="28" y="20">内側</text>
+    <text class="lm" x="108" y="142" text-anchor="middle">膝裏のシワ</text>`}
+};
+</script>
+<script>
+/* ================= ツボDB ================= */
+const TSUBO = [
+ /* 木タイプ（足の肝経） */
+ {id:'taisho', name:'太衝', kana:'たいしょう', types:['moku'], tags:['目','頭','こころ'], fine:'眼精疲労・イライラ・頭のはり',
+  view:'footTop', x:78, y:148,
+  loc:'足の甲。親指と人さし指の骨を、足首のほうへなぞっていって合流するところのくぼみ。',
+  how:'息を吐きながら、じわっと7秒。1日3回ほどが目安です。'},
+ {id:'kokan', name:'行間', kana:'こうかん', types:['moku'], tags:['こころ','冷え・むくみ'], fine:'イライラ・のぼせ',
+  view:'footTop', x:80, y:196,
+  loc:'足の甲。親指と人さし指の付け根のあいだ。',
+  how:'指をすべり込ませるように、やさしく押します。'},
+ {id:'daiton', name:'大敦', kana:'だいとん', types:['moku'], tags:['頭','こころ'], fine:'側頭部の頭痛・イライラ',
+  view:'footTop', x:74, y:210,
+  loc:'足の親指の爪の、人さし指側の生えぎわ。',
+  how:'爪のきわを、指先でつまむようにクニクニと。'},
+ {id:'chuho', name:'中封', kana:'ちゅうほう', types:['moku'], tags:['腰・脚','冷え・むくみ'], fine:'ストレス性の腰痛・冷えからくる腰痛',
+  view:'footInner', x:124, y:98,
+  loc:'内くるぶしのいちばん高いところから、つま先のほうへなぞったくぼみ。',
+  how:'足首は意外と固くなる場所。ここが固いと腰をねじりにくくなります。やさしくほぐして。'},
+ {id:'kyokusen', name:'曲泉', kana:'きょくせん', types:['moku'], tags:['冷え・むくみ'], fine:'冷えのぼせ',
+  view:'legFront', x:73, y:122,
+  loc:'膝を曲げたときにできるシワの、内側の端のくぼみ。',
+  how:'手のひらで包んで温めるのも気持ちのいい場所です。'},
+ /* 土タイプ（足の脾経） */
+ {id:'taihaku', name:'太白', kana:'たいはく', types:['tsuchi'], tags:['胃腸'], fine:'胃腸ぜんたいの不調',
+  view:'footInner', x:58, y:152,
+  loc:'足の親指の付け根の大きな関節の、かかと側のくぼみ。',
+  how:'消化器の調子を映す場所。ズーンと響くところを、やさしく。'},
+ {id:'daito', name:'大都', kana:'だいと', types:['tsuchi'], tags:['胃腸'], fine:'便秘・飲んだ翌日の下痢',
+  view:'footInner', x:38, y:156,
+  loc:'足の親指の付け根の大きな関節の、つま先側のくぼみ。',
+  how:'1日3回ほど、指の腹でじんわりと。'},
+ {id:'inpaku', name:'隠白', kana:'いんぱく', types:['tsuchi'], tags:['生理','胃腸'], fine:'生理の出血が多い・お腹の張り',
+  view:'footInner', x:20, y:149,
+  loc:'足の親指の爪の、内側（人さし指と反対側）の生えぎわ。',
+  how:'爪のきわを、指先でつまむようにやさしく。'},
+ {id:'shokyu', name:'商丘', kana:'しょうきゅう', types:['tsuchi'], tags:['胃腸','冷え・むくみ'], fine:'お腹の冷え・貧血ぎみ',
+  view:'footInner', x:138, y:114,
+  loc:'内くるぶしの、ななめ前下のくぼみ。',
+  how:'足湯やお灸で温めると、お腹までじんわり。'},
+ {id:'inryosen', name:'陰陵泉', kana:'いんりょうせん', types:['tsuchi'], tags:['胃腸','冷え・むくみ','腰・脚'], fine:'食欲不振・むくみ・腰の重さ',
+  view:'legFront', x:74, y:152,
+  loc:'すねの内側を、下から上へ指でなぞって止まる、膝下のくぼみ。',
+  how:'1日7回ほど、ゆっくり押すのがおすすめ。'},
+ /* 金タイプ（手の肺経） */
+ {id:'taien', name:'太淵', kana:'たいえん', types:['kin'], tags:['冷え・むくみ','風邪・のど・鼻'], fine:'のぼせ・呼吸を整える',
+  view:'handPalm', x:64, y:196,
+  loc:'手首を曲げるとできるシワの、親指側のくぼみ。',
+  how:'脈にふれる場所。反対の手の親指で、そっと当てるように。'},
+ {id:'shakutaku', name:'尺沢', kana:'しゃくたく', types:['kin'], tags:['肩・首'], fine:'肩こり',
+  view:'armInner', x:168, y:52,
+  loc:'ひじを曲げるとできるシワの、親指側のくぼみ。',
+  how:'5回ほど、じわっと押してゆっくり離す。'},
+ {id:'gyosai', name:'魚際', kana:'ぎょさい', types:['kin'], tags:['風邪・のど・鼻'], fine:'のどの痛み・せき',
+  view:'handPalm', x:52, y:158,
+  loc:'手のひら側、親指の付け根のふくらみの中央。',
+  how:'お灸は使わず、指圧だけで。反対の親指でもみほぐします。'},
+ {id:'keikyo', name:'経渠', kana:'けいきょ', types:['kin'], tags:['風邪・のど・鼻'], fine:'せき・喘息ぎみのとき',
+  view:'handPalm', x:58, y:222,
+  loc:'太淵（手首のシワの親指側）から、ひじへ向かって3cmほどのところ。',
+  how:'こちらも指圧のみで。やさしくさするだけでも。'},
+ {id:'shosho', name:'少商', kana:'しょうしょう', types:['kin'], tags:['風邪・のど・鼻','頭'], fine:'のどの痛み・頭がぼーっとする',
+  view:'handPalm', x:26, y:120,
+  loc:'手の親指の爪の、外側の生えぎわ。',
+  how:'指先でつまんで、クニクニと3回ほど。指圧のみで。'},
+ /* 水タイプ（足の腎経） */
+ {id:'taikei', name:'太渓', kana:'たいけい', types:['mizu'], tags:['眠り・疲れ','冷え・むくみ'], fine:'慢性的な疲れ・足の冷え',
+  view:'footInner', x:170, y:96,
+  loc:'内くるぶしのてっぺんと、アキレス腱のあいだのくぼみ。',
+  how:'お灸や足湯でじんわり温めると、底力が戻ってきます。'},
+ {id:'yusen', name:'湧泉', kana:'ゆうせん', types:['mizu'], tags:['眠り・疲れ','胃腸'], fine:'元気の底上げ・のぼせ・便秘',
+  view:'footSole', x:98, y:88,
+  loc:'足の裏。指をぎゅっと曲げたときに、いちばんへこむところ。',
+  how:'ゴルフボール踏みも◎。名前のとおり「元気が湧く泉」です。'},
+ {id:'nenkoku', name:'然谷', kana:'ねんこく', types:['mizu'], tags:['眠り・疲れ','冷え・むくみ'], fine:'その日の疲れ・手足のほてり',
+  view:'footInner', x:116, y:126,
+  loc:'内くるぶしから、つま先側へななめ下。骨のすぐ下のくぼみ。',
+  how:'土踏まずと握手するように、やさしく握ってほぐします。'},
+ {id:'fukuryu', name:'復溜', kana:'ふくりゅう', types:['mizu'], tags:['こころ'], fine:'動悸・そわそわ',
+  view:'footInner', x:172, y:56,
+  loc:'太渓（内くるぶしとアキレス腱のあいだ）から、指3本分ほど上。',
+  how:'1日5回ほど。呼吸に合わせてゆっくりと。'},
+ {id:'inkoku', name:'陰谷', kana:'いんこく', types:['mizu'], tags:['口・肌'], fine:'乾燥肌',
+  view:'legBack', x:81, y:116,
+  loc:'膝裏のシワの内側、すじとすじのあいだ。',
+  how:'デリケートな場所なので、指の腹でそっと。'},
+ /* 症状からのツボ */
+ {id:'hyakue', name:'百会', kana:'ひゃくえ', types:[], tags:['頭','眠り・疲れ'], fine:'頭痛・頭が重い・頭のコリ',
+  view:'headSide', x:118, y:34,
+  loc:'頭のてっぺん。左右の耳の穴を結んだ線の、ちょうどまんなか。',
+  how:'蒸しタオルでじんわり温めると、頭の表面のコリがゆるみます。'},
+ {id:'taiyo', name:'太陽', kana:'たいよう', types:[], tags:['頭','目'], fine:'こめかみのズキズキ',
+  view:'faceFront', x:166, y:92,
+  loc:'目じりとまゆ尻のあいだから、指2本分うしろのくぼみ。こめかみのあたり。',
+  how:'押さずに、くるくると円を描くようにやさしくほぐします。左右同時に触るとわかりやすい。', pair:true, pairAxis:110},
+ {id:'kankotsu', name:'完骨', kana:'かんこつ', types:[], tags:['頭','眠り・疲れ'], fine:'耳のつまり感・お疲れサイン',
+  view:'headSide', x:82, y:158,
+  loc:'耳たぶのうしろにある骨の出っぱりの、すぐ下。',
+  how:'温めたり、やさしくほぐしたり。疲れがたまると固くなる場所です。'},
+ {id:'shintei', name:'神庭', kana:'しんてい', types:[], tags:['風邪・のど・鼻'], fine:'鼻水・鼻づまり',
+  view:'faceFront', x:110, y:42,
+  loc:'眉間からまっすぐ上がって、髪の生えぎわのあたり。',
+  how:'蒸しタオルを当てると、鼻がすっと通りやすくなります。'},
+ {id:'shihaku', name:'四白', kana:'しはく', types:[], tags:['目'], fine:'目のかすみ・目もとのむくみ',
+  view:'faceFront', x:88, y:120,
+  loc:'黒目の真下。頬骨の少し下、小鼻の高さのくぼみ。',
+  how:'指の腹でやさしく。ズーンと響けば、そこが当たりです。', pair:true, pairAxis:110},
+ {id:'tenchu', name:'天柱', kana:'てんちゅう', types:[], tags:['目','肩・首'], fine:'目の疲れ・後頭部の重さ',
+  view:'backNeck', x:98, y:74,
+  loc:'首のうしろ、髪の生えぎわ。太いすじの両外側のくぼみ。',
+  how:'強く押さず、お風呂で作った蒸しタオルで温めるのがいちばん。', pair:true, pairAxis:110},
+ {id:'goukoku', name:'合谷', kana:'ごうこく', types:[], tags:['肩・首','頭','目'], fine:'肩こり・目の症状ぜんぱん',
+  view:'handBack', x:57, y:134,
+  loc:'手の甲。親指と人さし指の骨のあいだ、人さし指側の骨のきわ。',
+  how:'力を抜いて、左右をさわりくらべながら。固いほうをやさしくほぐします。'},
+ {id:'rakuchin', name:'落枕', kana:'らくちん', types:[], tags:['肩・首'], fine:'首の寝違え',
+  view:'handBack', x:92, y:118,
+  loc:'手の甲。人さし指と中指の、付け根の骨のあいだ。',
+  how:'寝違えた首は直接押さず、まずここをほぐすのが東洋医学流。'},
+ {id:'kensei', name:'肩井', kana:'けんせい', types:[], tags:['肩・首'], fine:'肩こり',
+  view:'backNeck', x:158, y:112,
+  loc:'首の付け根と肩先を結んだ、ちょうどまんなか。',
+  how:'お灸や蒸しタオルと相性のいい場所。温めてからほぐすと◎。', pair:true, pairAxis:110},
+ {id:'daitsui', name:'大椎', kana:'だいつい', types:[], tags:['風邪・のど・鼻','冷え・むくみ'], fine:'風邪のひきはじめ・ゾクゾク',
+  view:'backNeck', x:110, y:96,
+  loc:'首を前に倒したときに、いちばん出っぱる骨のすぐ下。',
+  how:'ドライヤーの温風や蒸しタオルで。しばらくすると背中全体がぽかぽかに。'},
+ {id:'tentotsu', name:'天突', kana:'てんとつ', types:[], tags:['風邪・のど・鼻'], fine:'せきが出るとき',
+  view:'torsoFront', x:110, y:52,
+  loc:'のどの下、胸の骨との境目のくぼみ。',
+  how:'胸のほうへ向かって、指の腹でやさしく押し下げます。蒸しタオルも◎。'},
+ {id:'chukan', name:'中脘', kana:'ちゅうかん', types:[], tags:['胃腸'], fine:'食欲がない・胃の重さ',
+  view:'torsoFront', x:110, y:138,
+  loc:'みぞおちとおへその、ちょうどまんなか。',
+  how:'夜眠るとき、手のひらを当てて。時間をかけてゆるめていきます。'},
+ {id:'ryokyu', name:'梁丘', kana:'りょうきゅう', types:[], tags:['胃腸'], fine:'急な胃の痛み',
+  view:'legFront', x:132, y:84,
+  loc:'膝のお皿の外側の角から、指3本分ほど上。',
+  how:'出先で胃が痛むときに。ズーンと響くところをほぐします。'},
+ {id:'ashisanri', name:'足三里', kana:'あしさんり', types:[], tags:['胃腸','眠り・疲れ'], fine:'胃腸の弱り・全身の元気',
+  view:'legFront', x:134, y:160,
+  loc:'膝のお皿の下のくぼみから、指4本分下。すねの骨のやや外側。',
+  how:'お灸の定番中の定番。じんわり温めて、胃腸と元気を養います。'},
+ {id:'kekkai', name:'血海', kana:'けっかい', types:[], tags:['生理'], fine:'生理の不調・血のめぐり',
+  view:'legFront', x:70, y:78,
+  loc:'膝のお皿の内側の角から、指3本分ほど上。',
+  how:'冷やさず温めるのが基本。蒸しタオルやお灸で。'},
+ {id:'icchu', name:'委中', kana:'いちゅう', types:[], tags:['腰・脚'], fine:'腰の重だるさ',
+  view:'legBack', x:108, y:118,
+  loc:'膝裏のシワの、ちょうどまんなか。',
+  how:'ここがゆるむと、太ももの裏から腰までゆるみます。デリケートな場所なのでやさしく。'},
+ {id:'shitsumin', name:'失眠', kana:'しつみん', types:[], tags:['冷え・むくみ','眠り・疲れ'], fine:'足のむくみ・冷え・眠り',
+  view:'footSole', x:100, y:196,
+  loc:'かかとの、ちょうどまんなか。',
+  how:'足湯やお灸でしっかり温めて。からだの水はけを助けてくれます。'},
+ {id:'uranaitei', name:'裏内庭', kana:'うらないてい', types:[], tags:['胃腸'], fine:'吐き気・二日酔い・食あたり',
+  view:'footSole', x:114, y:52,
+  loc:'足の人さし指をぐっと曲げて、指先が足裏につくところ。',
+  how:'「熱さを感じるまで温める」のがセオリー。お灸や熱めの蒸しタオルで。'},
+ {id:'naitei', name:'内庭', kana:'ないてい', types:[], tags:['口・肌','胃腸'], fine:'口内炎・食べすぎの熱',
+  view:'footTop', x:114, y:198,
+  loc:'足の人さし指と中指の、またの部分。肌の色が切り替わるあたり。',
+  how:'指を開いて、痛気持ちいい強さでほぐします。けっこう響きます。'},
+ {id:'shinmon', name:'神門', kana:'しんもん', types:[], tags:['こころ','眠り・疲れ','胃腸'], fine:'そわそわ・眠り・便秘',
+  view:'handPalm', x:136, y:196,
+  loc:'手首のシワの、小指側の端のくぼみ。',
+  how:'お灸でピンポイントに温めるのがおすすめ。気持ちを鎮めるツボとしても有名です。'}
+];
+</script>
+<script>
+/* ================= ロジック ================= */
+const $ = s => document.querySelector(s);
+let qIndex = 0;
+let lastResultType = null;
+
+function toTop(){ window.scrollTo({top:0, behavior:'smooth'}); }
+
+/* ---------- モード切替 ---------- */
+function switchMode(m){
+  $('#nav-shindan').classList.toggle('on', m==='shindan');
+  $('#nav-tsubo').classList.toggle('on', m==='tsubo');
+  $('#view-shindan').hidden = m!=='shindan';
+  $('#view-tsubo').hidden = m!=='tsubo';
+}
+function gotoShindan(){ switchMode('shindan'); renderStart(); toTop(); }
+
+/* ---------- 診断：スタート画面 ---------- */
+function renderStart(){
+  const rows = Object.keys(TYPES).map(k=>{
+    const t = TYPES[k];
+    return `<button class="gl-row" style="--c:${t.color}" onclick="showTypeProfile('${k}')">
+      <span class="g">${t.kanji}</span>
+      <span class="gl-tx"><b>${t.name}</b><small>${t.catch}</small></span>
+      <span class="ar">→</span>
+    </button>`;
+  }).join('');
+  $('#shindan-stage').innerHTML = `
+  <div class="card fade-in">
+    <p style="font-size:14px;margin-bottom:16px;">東洋医学では、人のからだと心のはたらきを「陰陽五行」という自然のリズムでとらえます。30問ほどの問いに答えると、あなたの体質にいちばん近いタイプ・性格・整えかた、そして五行の相生相剋でわかる「相性」までわかります。<br>質問は毎回すこし入れ替わるので、日をおいて試すのもおすすめです。</p>
+    <div style="text-align:center;margin-bottom:20px;">
+      <button class="btn" onclick="startQuiz()">チェックをはじめる</button>
+    </div>
+    <div class="gogyo-list">${rows}</div>
+    <p class="note" style="margin-bottom:14px;">タイプ名を押すと、診断をしなくても解説が読めます。「陰陽五行ってなに？」という方は<a style="color:var(--ember);font-weight:700;cursor:pointer;" onclick="showGogyoAbout()">こちら</a>。</p>
+    <p class="note">※ このチェックは、日本の伝統的な考えかたにもとづいて、五行のうち「火」のはたらきをほかの四つに含めた4タイプでみています。体質はどれかひとつに固定されるものではなく、2つ以上が混ざったり、暮らしとともに移ろったりするものです。</p>
+  </div>`;
+}
+
+/* ---------- タイプ解説（診断なしで読めるページ） ---------- */
+function showTypeProfile(key){
+  const t = TYPES[key];
+  const pts = t.points.map(id=>{
+    const p = TSUBO.find(x=>x.id===id);
+    return `<button onclick="openSheet('${id}')">${p.name}<small style="font-weight:500;color:var(--ink-soft);">（${p.fine.split('・')[0]}）</small></button>`;
+  }).join('');
+  switchMode('shindan');
+  $('#shindan-stage').innerHTML = `
+  <div class="fade-in">
+    <button class="back-link" onclick="renderStart();toTop();">← タイプの一覧にもどる</button>
+    <div class="card" style="--accent:${t.color}">
+      <p class="res-eyebrow">タイプ解説</p>
+      <div class="seal" style="background:${t.color}">${t.kanji}</div>
+      <p class="res-catch">— ${t.catch} —</p>
+      <p class="res-name">「${t.name}」</p>
+      <p class="res-kana">キーワード：${t.kw}</p>
+      ${kishitsuBox(key)}
+      <div class="res-sec"><h3>性格の特徴</h3>${personalityList(key)}</div>
+      <div class="res-sec"><h3>こころのクセ</h3><p class="story">${t.story.kokoro}</p></div>
+      <div class="res-sec"><h3>からだのサイン</h3><p class="story">${t.story.karada}</p>
+        <p class="fatigue-tag">疲れの出かた：${t.fatigue}</p>
+      </div>
+      <div class="res-sec"><h3>整えかたのヒント</h3><p class="story">${t.story.totonoe}</p>${careList(key)}</div>
+      <div class="res-sec"><h3>疲れたときの味覚</h3>
+        <div class="res-taste"><span class="t">${t.taste.t}<small>MIKAKU</small></span><span>${t.taste.d}</span></div>
+      </div>
+      ${aishoSection(key)}
+      <div class="res-sec"><h3>基本のツボ</h3>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;">${t.name}のめぐりを整える、代表的な5つのツボです。名前を押すと、位置と使いかたがひらきます。</p>
+        <div class="res-points">${pts}</div>
+      </div>
+      <div class="res-actions">
+        <button class="btn" onclick="gotoTypePage('${key}')">${t.name}のツボページへ</button>
+        <button class="btn ghost" onclick="startQuiz()">自分のタイプを診断する</button>
+      </div>
+    </div>
+  </div>`;
+  toTop();
+}
+
+/* ---------- 陰陽五行とは？ ---------- */
+function showGogyoAbout(){
+  const rows = Object.keys(TYPES).map(k=>{
+    const t = TYPES[k];
+    return `<button class="gl-row" style="--c:${t.color}" onclick="showTypeProfile('${k}')">
+      <span class="g">${t.kanji}</span>
+      <span class="gl-tx"><b>${t.name}</b><small>${t.kw}</small></span>
+      <span class="ar">→</span>
+    </button>`;
+  }).join('');
+  switchMode('shindan');
+  $('#shindan-stage').innerHTML = `
+  <div class="fade-in">
+    <button class="back-link" onclick="renderStart();toTop();">← 診断のトップにもどる</button>
+    <div class="card">
+      <p class="res-eyebrow">よみもの</p>
+      <h2 class="serif" style="font-size:21px;font-weight:700;letter-spacing:.1em;text-align:center;margin-bottom:18px;">陰陽五行とは？</h2>
+      <p class="story" style="font-size:14px;line-height:2.05;margin-bottom:14px;">東洋医学では、人のからだと心のはたらきを「木・火・土・金・水」——五行という、5つのはたらきでとらえます。季節が春夏秋冬とめぐるように、人にもこの5つがそなわっていて、その偏りかたに、その人らしさ＝体質があらわれる、という考えかたです。土台には「陰と陽」というバランスの見かたもありますが、まずは五行の入口から。</p>
+      <p class="story" style="font-size:14px;line-height:2.05;margin-bottom:14px;">このページの診断では、日本の伝統的な考えかたにもとづいて、「火」のはたらきをほかの4つに含めた、木・土・金・水の4タイプでみています。どのタイプが良い・悪いということはありません。それぞれが、めぐりの個性です。</p>
+      <p class="story" style="font-size:14px;line-height:2.05;margin-bottom:20px;">自分の偏りを知って、暮らしのなかでそっと整える。そのためのやさしい地図として、使ってみてください。</p>
+      <div class="gogyo-list">${rows}</div>
+      <div class="about-links">
+        <!-- ▼ 公開時に、温考知身の該当記事URLへ差し替えてください -->
+        <a class="btn ghost" href="https://onkouchishin.life/" target="_blank" rel="noopener">くわしくは温考知身の読みものへ</a>
+        <button class="btn" onclick="startQuiz()">チェックをはじめる</button>
+      </div>
+    </div>
+  </div>`;
+  toTop();
+}
+
+/* ---------- 診断：設問（抽選＋シャッフル＋寄り道＋豆知識） ---------- */
+let FLOW = [];   // その回の質問の並び（q / dummy / trivia）
+let PICK = [];   // 各項目のこたえ（qとdummyのみ。triviaはnull）
+
+function shuffle(a){
+  const r = a.slice();
+  for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; }
+  return r;
+}
+
+/* その回の出題を組み立てる */
+function buildFlow(){
+  const N = QUIZ_CFG.N_PER_TYPE;
+  // 各タイプのプールから N問ずつ抽選 → 採点対象の質問
+  let qs = [];
+  Object.keys(POOL).forEach(t=>{
+    shuffle(POOL[t]).slice(0,N).forEach(text=>qs.push({kind:'q', t, q:text}));
+  });
+  qs = shuffle(qs);
+  // 寄り道（ダミー）を抽選して差しこむ
+  const dummies = shuffle(DUMMY).slice(0, QUIZ_CFG.DUMMY_COUNT).map(d=>({kind:'dummy', ...d}));
+  // 質問＋寄り道をまぜて、答える項目の並びをつくる
+  return shuffle(qs.concat(dummies));
+}
+
+function startQuiz(){
+  FLOW = buildFlow();
+  PICK = FLOW.map(()=>null);
+  qIndex = 0;
+  renderItem();
+}
+
+/* 「いま何問目か」= 答える項目（q/dummy）の中での位置 */
+function questionMeta(){
+  const answerable = FLOW.filter(f=>f.kind!=='trivia');
+  const answeredBefore = FLOW.slice(0, qIndex).filter(f=>f.kind!=='trivia').length;
+  const cur = FLOW[qIndex].kind==='trivia' ? answeredBefore : answeredBefore+1;
+  return { total: answerable.length, cur, pct: Math.round(answeredBefore/answerable.length*100) };
+}
+
+function renderItem(){
+  const item = FLOW[qIndex];
+  if(item.kind==='trivia'){ renderTrivia(item); return; }
+  const m = questionMeta();
+  const isDummy = item.kind==='dummy';
+  const opts = isDummy
+    ? item.opts.map((label,i)=>`<button class="opt-plain" onclick="answer(${i})">${label}</button>`).join('')
+    : OPTS.map(o=>`<button onclick="answer(${o.v})"><span class="mark"></span>${o.label}</button>`).join('');
+  $('#shindan-stage').innerHTML = `
+  <div class="card fade-in">
+    <div class="q-progress">
+      <div class="bar"><i style="width:${m.pct}%"></i></div>
+      <span class="num">${m.cur} / ${m.total}</span>
+    </div>
+    ${isDummy ? '<p class="q-kind kind-yorimichi">ちょっと寄り道</p>' : ''}
+    <p class="q-text">${item.q}</p>
+    <div class="q-opts">${opts}</div>
+    <div class="q-back">${qIndex>0 ? '<button onclick="backQuestion()">← ひとつ前にもどる</button>' : ''}</div>
+  </div>`;
+}
+
+function renderTrivia(item){
+  const m = questionMeta();
+  $('#shindan-stage').innerHTML = `
+  <div class="card fade-in trivia-card">
+    <p class="q-kind kind-mame">東洋医学の豆知識</p>
+    <p class="tr-tag">${item.tag}</p>
+    <p class="tr-body">${item.body}</p>
+    <div style="text-align:center;margin-top:22px;">
+      <button class="btn" onclick="nextItem()">なるほど、つづける →</button>
+    </div>
+    <p class="note" style="text-align:center;margin-top:14px;">残り ${m.total - m.cur} 問</p>
+  </div>`;
+  toTop();
+}
+
+function answer(v){
+  PICK[qIndex] = v;
+  nextItem();
+}
+function nextItem(){
+  qIndex++;
+  if(qIndex < FLOW.length){ renderItem(); } else { renderReveal(); }
+}
+function backQuestion(){
+  if(qIndex<=0) return;
+  qIndex--;
+  // 直前が豆知識ならさらにもうひとつ前の質問まで戻る
+  while(qIndex>0 && FLOW[qIndex].kind==='trivia') qIndex--;
+  PICK[qIndex] = null;
+  renderItem();
+}
+
+/* ---------- 結果前の演出（巡りを読む） ---------- */
+function renderReveal(){
+  const ring = ['moku','tsuchi','kin','mizu'].map((k,i)=>{
+    const t = TYPES[k];
+    return `<span class="rv-dot" style="--c:${t.color};--i:${i}">${t.kanji}</span>`;
+  }).join('');
+  $('#shindan-stage').innerHTML = `
+  <div class="card fade-in reveal">
+    <div class="rv-ring">${ring}<span class="rv-core">巡</span></div>
+    <p class="rv-text">いまの巡りを、読んでいます……</p>
+  </div>`;
+  toTop();
+  setTimeout(renderResult, 3900);
+}
+
+/* ---------- 診断：結果 ---------- */
+function calcScores(){
+  const s = {moku:0, tsuchi:0, kin:0, mizu:0};
+  FLOW.forEach((item,i)=>{ if(item.kind==='q'){ s[item.t] += PICK[i] ?? 0; } });
+  return s; // 各タイプ最大 N_PER_TYPE×3 点
+}
+function typeMax(){ return QUIZ_CFG.N_PER_TYPE * 3; }
+
+/* ================= 結果の肉付け：共通パーツ ================= */
+
+/* 五行サイクル図（相生＝実線・相剋＝点線、自分の関係だけ色づけ） */
+function gogyoCycleSVG(key){
+  const N = GOGYO_NODES;
+  const t = TYPES[key];
+  const rel = RELATION[key];
+  const shengPair = [key, rel.sheng.t];
+  const kePair = [key, rel.ke.t];
+  const same = (e,p)=> (e[0]===p[0]&&e[1]===p[1])||(e[0]===p[1]&&e[1]===p[0]);
+  const nodeR = k => k===key ? 21 : (N[k].faded ? 15 : 17);
+  function edge(a,b,cls,color){
+    const A=N[a], B=N[b];
+    const dx=B.x-A.x, dy=B.y-A.y, len=Math.hypot(dx,dy);
+    const ux=dx/len, uy=dy/len;
+    const x1=A.x+ux*nodeR(a), y1=A.y+uy*nodeR(a);
+    const x2=B.x-ux*nodeR(b), y2=B.y-uy*nodeR(b);
+    return `<line class="${cls}" x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}"${color?` stroke="${color}"`:''}/>`;
+  }
+  let lines='';
+  SHENG_EDGES.forEach(e=>{ if(!same(e,shengPair)) lines += edge(e[0],e[1],'gc-sheng'); });
+  KE_EDGES.forEach(e=>{ if(!same(e,kePair)) lines += edge(e[0],e[1],'gc-ke'); });
+  lines += edge(shengPair[0],shengPair[1],'gc-sheng on',TYPES[rel.sheng.t].color);
+  lines += edge(kePair[0],kePair[1],'gc-ke on',TYPES[rel.ke.t].color);
+  let nodes='';
+  Object.keys(N).forEach(k=>{
+    const n=N[k], r=nodeR(k);
+    const isSelf = k===key;
+    const col = k==='fire' ? '#b7a992' : (TYPES[k]?TYPES[k].color:'#b7a992');
+    const fill = isSelf ? col : (n.faded ? '#efe7d5' : '#fdfaf1');
+    const txtColor = isSelf ? '#fff' : (n.faded ? '#a99a7c' : col);
+    nodes += `<circle cx="${n.x}" cy="${n.y}" r="${r}" fill="${fill}" stroke="${col}" stroke-width="${isSelf?0:2}"/>`+
+      `<text class="gc-k" x="${n.x}" y="${n.y}" fill="${txtColor}">${n.kanji}</text>`;
+  });
+  return `<svg class="gogyo-cycle" viewBox="0 0 220 200" role="img" aria-label="五行の相生相剋の図。あなたは${t.name}。">${lines}${nodes}</svg>`;
+}
+
+/* 五行の相性セクション（相生・相剋） */
+function aishoSection(key){
+  const rel = RELATION[key];
+  const sT = TYPES[rel.sheng.t], kT = TYPES[rel.ke.t];
+  const roleText = {
+    nourished:{lead:'あなたを育ててくれる相手', body:'そばにいると、肩の力がふっと抜けます。'},
+    nourishing:{lead:'あなたが力を渡せる相手', body:'世話をやくうちに、自分のめぐりも整っていきます。'},
+    restrained:{lead:'ほどよい緊張感をくれる相手', body:'ときどきぶつかっても、そのぶん背筋が伸びます。'},
+    restraining:{lead:'あなたが引き締め役になれる相手', body:'頼られると、あなたの芯が生きてきます。'}
+  };
+  const sR = roleText[rel.sheng.role], kR = roleText[rel.ke.role];
+  return `
+  <div class="res-sec"><h3>五行の相性</h3>
+    <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:14px;">五行には、たがいを育てる「<b>相生（そうじょう）</b>」と、引き締めあう「<b>相剋（そうこく）</b>」のめぐりがあります。まわりの人を思いうかべながら、どうぞ。</p>
+    <div class="aisho-fig">${gogyoCycleSVG(key)}
+      <div class="gc-legend"><span><i class="l-sheng"></i>相生（育てあう）</span><span><i class="l-ke"></i>相剋（引き締めあう）</span></div>
+    </div>
+    <div class="aisho">
+      <div class="ai-card sheng" style="--c:${sT.color}">
+        <span class="g">${sT.kanji}</span>
+        <div><span class="ai-law">相生 ・ ${rel.sheng.law}</span><b>${sT.name}</b><small>${sR.lead}。${sR.body}</small></div>
+      </div>
+      <div class="ai-card ke" style="--c:${kT.color}">
+        <span class="g">${kT.kanji}</span>
+        <div><span class="ai-law">相剋 ・ ${rel.ke.law}</span><b>${kT.name}</b><small>${kR.lead}。${kR.body}</small></div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:10px;">※ 五行は本来「火」をふくむ5つのめぐり。ここでは診断の4タイプの範囲で見ています。</p>
+  </div>`;
+}
+
+/* 気質と感情（口癖つき） */
+function kishitsuBox(key){
+  const t = TYPES[key], k = t.kishitsu;
+  if(!k) return '';
+  return `<div class="kishitsu" style="--c:${t.color}">
+    <div class="ki-emo"><span class="ki-kanji">${k.emotion}</span><small>感情</small></div>
+    <div class="ki-body">
+      <p class="ki-kuchi">口ぐせは <b>「${k.kuchiguse}」</b></p>
+      <p class="ki-note">${k.note}</p>
+    </div>
+  </div>`;
+}
+
+/* 性格の特徴・セルフケア（箇条書き） */
+function personalityList(key){
+  const t = TYPES[key];
+  return t.personality ? `<ul class="feat-list">${t.personality.map(x=>`<li>${x}</li>`).join('')}</ul>` : '';
+}
+function careList(key){
+  const t = TYPES[key];
+  return t.carecues ? `<ul class="feat-list care">${t.carecues.map(x=>`<li>${x}</li>`).join('')}</ul>` : '';
+}
+
+function renderResult(){
+  const s = calcScores();
+  const order = Object.keys(s).sort((a,b)=>s[b]-s[a]);
+  const topKey = order[0];
+  const t = TYPES[topKey];
+  lastResultType = topKey;
+  const bars = order.map(k=>{
+    const tt = TYPES[k];
+    const pct = Math.round(s[k]/typeMax()*100);
+    return `<div class="row">
+      <span class="k" style="color:${tt.color}">${tt.kanji}</span>
+      <span class="tr"><i data-w="${pct}" style="background:${tt.color}"></i></span>
+      <span class="v">${pct}%</span></div>`;
+  }).join('');
+  const pts = t.points.map(id=>{
+    const p = TSUBO.find(x=>x.id===id);
+    return `<button onclick="openSheet('${id}')">${p.name}<small style="font-weight:500;color:var(--ink-soft);">（${p.fine.split('・')[0]}）</small></button>`;
+  }).join('');
+  const second = TYPES[order[1]];
+  const s1 = s[order[0]], s2 = s[order[1]];
+  const tot = s1 + s2;
+  const p1 = tot ? Math.round(s1/tot*100) : 50;
+  const p2 = 100 - p1;
+
+  /* 五行の相性（相生・相剋） */
+  const aishoHTML = aishoSection(topKey);
+
+  /* 寄り道の種明かし（FLOW/PICKから集計） */
+  const dseen = [];
+  FLOW.forEach((it,i)=>{ if(it.kind==='dummy' && PICK[i]!=null){ dseen.push({label:it.opts[PICK[i]]}); } });
+  const colorMap = {'若葉のみどり':'木','土のきいろ':'土','生成りのしろ':'金','藍のあお':'水'};
+  const colorPick = dseen.find(d=>colorMap[d.label]);
+  const winkHTML = dseen.length ? `
+    <div class="wink">
+      <p><b>そういえば。</b>とちゅうの「寄り道」の質問は、じつは診断には関係のない、ただの心地よさの問いでした。${
+        colorPick ? `えらんでもらった色〈${colorPick.label}〉は、五行でいう「${colorMap[colorPick.label]}」の色。今日のあなたの気分が、そっと出ていたのかもしれません。` : 'それでも、選ぶ手つきには、その日のあなたが出ます。'
+      }</p>
+    </div>` : '';
+
+  $('#shindan-stage').innerHTML = `
+  <div class="card fade-in" style="--accent:${t.color}">
+    <p class="res-eyebrow">わたしの五行タイプ</p>
+    <div class="seal" style="background:${t.color}">${t.kanji}</div>
+    <p class="res-catch">— ${t.catch} —</p>
+    <p class="res-name">あなたは「${t.name}」</p>
+    <p class="res-kana">キーワード：${t.kw}</p>
+    <div class="res-bars">${bars}</div>
+    <div class="res-blend">
+      <p class="bl-catch">いまの配合は、<b style="color:${t.color}">${t.kanji}</b> × <b style="color:${second.color}">${second.kanji}</b></p>
+      <div class="bl-bar"><i style="width:${p1}%;background:${t.color}"></i><i style="width:${p2}%;background:${second.color}"></i></div>
+      <p class="bl-nums"><span style="color:${t.color}">${t.kanji} ${p1}%</span> ／ <span style="color:${second.color}">${second.kanji} ${p2}%</span></p>
+    </div>
+    <p class="note" style="margin-bottom:4px;">上の割合は、高かった2つのタイプのまざり具合です。体質はグラデーションなので、「${second.name}」の整えかたも、少し取り入れてみてください。</p>
+
+    ${kishitsuBox(topKey)}
+
+    <div class="res-sec"><h3>性格の特徴</h3>
+      ${personalityList(topKey)}
+    </div>
+    <div class="res-sec"><h3>こころのクセ</h3><p class="story">${t.story.kokoro}</p></div>
+    <div class="res-sec"><h3>からだのサイン</h3><p class="story">${t.story.karada}</p>
+      <p class="fatigue-tag">疲れの出かた：${t.fatigue}</p>
+    </div>
+    <div class="res-sec"><h3>整えかたのヒント</h3><p class="story">${t.story.totonoe}</p>
+      ${careList(topKey)}
+    </div>
+    <div class="res-sec"><h3>疲れたときの味覚</h3>
+      <div class="res-taste"><span class="t">${t.taste.t}<small>MIKAKU</small></span><span>${t.taste.d}</span></div>
+    </div>
+    ${aishoHTML}
+    <div class="res-sec"><h3>あなたの基本のツボ</h3>
+      <p style="font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;">${t.name}のめぐりを整える、代表的な5つのツボです。名前を押すと、位置と使いかたがひらきます。</p>
+      <div class="res-points">${pts}</div>
+    </div>
+    ${winkHTML}
+    <div class="res-share">
+      <p class="rs-lead">まわりは何タイプ？ さそってみる。</p>
+      <button class="btn" onclick="shareResultLink()">この診断を送る</button>
+      <button class="btn ghost" onclick="shareResultImage()">結果を画像で保存</button>
+    </div>
+    <div class="res-oq" style="margin:22px 0 8px;padding:18px 16px;border-radius:14px;background:var(--washi-deep);text-align:center;">
+      <p style="font-size:12.5px;color:var(--ink-soft);line-height:1.8;margin-bottom:10px;">「${t.name}」には、${t.kanji==='木'||t.kanji==='金' ? 'おだやかな温度の「warm」' : 'じっくりめの「hot」'}のお灸が合うといわれています。<br>OQの紹介ページに、タイプごとの楽しみかたをまとめています。</p>
+      <!-- ▼ 公開時に本番URLへ差し替え。ハッシュはタイプに合わせて自動で付与されます -->
+      <a class="btn" href="https://onkouchishin.life/oq/#${topKey}" target="_blank" rel="noopener">${t.name}向けのOQを見る</a>
+    </div>
+    <div class="res-actions">
+      <button class="btn ghost" onclick="gotoTypePage('${topKey}')">${t.name}のツボページへ</button>
+      <button class="btn ghost" onclick="startQuiz()">もう一度チェックする</button>
+    </div>
+  </div>`;
+  requestAnimationFrame(()=>{ setTimeout(()=>{
+    document.querySelectorAll('.res-bars i').forEach(el=>{ el.style.width = el.dataset.w + '%'; });
+  }, 60); });
+  toTop();
+}
+
+/* ================= ツボ検索 ================= */
+const TIP_HTML = `<div class="d-tip"><b>ツボ押しの基本</b>：アボカドを傷つけないくらいの、やさしい力で。「ズーン」と感じる場所を見つけたら、息を吐きながら7秒じわっと押して、ゆっくり力を抜きます。「指◯本分」は、自分の指の幅ではかってください。</div>`;
+
+function badgeHTML(p){
+  if(p.types.length){
+    const t = TYPES[p.types[0]];
+    return `<span class="badge" style="background:${t.color}">${t.kanji}タイプの基本のツボ</span>`;
+  }
+  return `<span class="badge all">どのタイプの方にも</span>`;
+}
+
+function figHTML(p){
+  if(!SHOW_FIG) return '';
+  const v = VIEWS[p.view];
+  if(!v) return '';
+  const cap = `${v.cap}${p.pair?'（左右にあります）':''}`;
+  if(v.img){
+    return `<div class="d-fig"><img src="${v.img}" alt="${p.name}の位置：${cap}" style="max-width:270px;width:100%;border-radius:10px;"><span class="cap">${cap}</span></div>`;
+  }
+  let marker = `<g class="pt" transform="translate(${p.x},${p.y})"><circle class="halo" r="9"/><circle class="dot" r="4.5"/></g>`;
+  if(p.pair){
+    const mx = 2*p.pairAxis - p.x;
+    marker = `<g class="pt pair-sub" transform="translate(${mx},${p.y})"><circle class="halo" r="9"/><circle class="dot" r="4.5"/></g>` + marker;
+  }
+  return `<div class="d-fig">
+    <svg viewBox="${v.vb}" role="img" aria-label="${p.name}の位置：${cap}">${v.body}${marker}</svg>
+    <span class="cap">${cap}</span>
+  </div>`;
+}
+
+function detailCardHTML(p){
+  return `<article class="p-card fade-in">
+    <div class="p-top">
+      <div class="p-name"><span class="kn">${p.kana}</span><span class="nm">${p.name}</span></div>
+      ${badgeHTML(p)}
+    </div>
+    <p class="p-fine"><b>こんなときに</b>｜${p.fine}</p>
+    ${figHTML(p)}
+    <div class="d-sec"><h4>見つけかた</h4><p>${p.loc}</p></div>
+    <div class="d-sec"><h4>ケアのしかた</h4><p>${p.how}</p></div>
+  </article>`;
+}
+
+/* ---------- 入口画面 ---------- */
+function showFinderHome(){
+  const syms = SYMPTOMS.map(s=>
+    `<button onclick="showSymPage('${s.tag}')"><span class="ic">${s.ic}</span><span class="nm">${s.tag}</span><span class="ar">→</span></button>`).join('');
+  const typs = Object.keys(TYPES).map(k=>{
+    const t = TYPES[k];
+    return `<button style="--c:${t.color}" onclick="showTypePage('${k}')">
+      <span class="g">${t.kanji}</span>
+      <span><span class="nm">${t.name}</span><span class="ct">${t.catch.split('、')[0]}</span></span>
+    </button>`;
+  }).join('');
+  $('#finder-stage').innerHTML = `
+  <div class="fade-in">
+    <div class="home-sec">
+      <h2>症状からさがす</h2>
+      <p class="hs-lead">いま気になる不調を選ぶと、合うツボのページがひらきます。</p>
+      <div class="sym-grid">${syms}</div>
+    </div>
+    <div class="home-sec">
+      <h2>タイプからさがす</h2>
+      <p class="hs-lead">体質タイプごとの、基本の5つのツボをまとめています。</p>
+      <div class="type-grid">${typs}</div>
+      <p class="quiz-invite">自分のタイプがわからないときは、<a onclick="gotoShindan()">わたしの五行タイプ（約3分）</a>からどうぞ。</p>
+    </div>
+  </div>`;
+}
+
+/* ---------- 症状ページ ---------- */
+function showSymPage(tag){
+  const s = SYMPTOMS.find(x=>x.tag===tag);
+  const list = TSUBO.filter(p=>p.tags.includes(tag));
+  $('#finder-stage').innerHTML = `
+  <div class="fade-in">
+    <button class="back-link" onclick="showFinderHome();toTop();">← さがしかたを選びなおす</button>
+    <div class="page-head">
+      <h2>「${tag}」のツボ</h2>
+      <p class="pg-lead">${s.lead}</p>
+    </div>
+    <div class="p-list">${list.map(detailCardHTML).join('')}</div>
+    ${TIP_HTML}
+    <div class="page-foot"><button class="btn ghost small" onclick="showFinderHome();toTop();">← ほかの症状をさがす</button></div>
+  </div>`;
+  toTop();
+}
+
+/* ---------- タイプページ ---------- */
+function showTypePage(key){
+  const t = TYPES[key];
+  const list = t.points.map(id=>TSUBO.find(p=>p.id===id));
+  switchMode('tsubo');
+  $('#finder-stage').innerHTML = `
+  <div class="fade-in">
+    <button class="back-link" onclick="showFinderHome();toTop();">← さがしかたを選びなおす</button>
+    <div class="type-head" style="--c:${t.color};background:${t.color}" data-kanji="${t.kanji}">
+      <p class="th-catch">— ${t.catch.split('、')[0]} —</p>
+      <p class="th-name">${t.name}の基本のツボ</p>
+      <p class="th-desc">${t.meridian}</p>
+      <p class="th-more"><a onclick="showTypeProfile('${key}')">${t.name}ってどんな人？ 解説を読む →</a></p>
+    </div>
+    <div class="p-list">${list.map(detailCardHTML).join('')}</div>
+    ${TIP_HTML}
+    <p class="quiz-invite" style="margin-top:18px;">自分のタイプを知りたいときは、<a onclick="gotoShindan()">わたしの五行タイプ（約3分）</a>からどうぞ。</p>
+    <div class="page-foot"><button class="btn ghost small" onclick="showFinderHome();toTop();">← ほかのさがしかたへ</button></div>
+  </div>`;
+  toTop();
+}
+function gotoTypePage(key){ switchMode('tsubo'); showTypePage(key); }
+
+/* ---------- クイック表示シート（診断結果から） ---------- */
+function openSheet(id){
+  const p = TSUBO.find(x=>x.id===id);
+  $('#sheet-body').innerHTML = detailCardHTML(p) + TIP_HTML;
+  $('#sheet').classList.add('on');
+  $('#sheet-bg').classList.add('on');
+  $('#sheet').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet(){
+  $('#sheet').classList.remove('on');
+  $('#sheet-bg').classList.remove('on');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeSheet(); });
+
+/* ---------- かんたんトースト ---------- */
+function toast(msg){
+  let el = document.getElementById('toast');
+  if(!el){ el = document.createElement('div'); el.id='toast'; el.className='toast'; document.body.appendChild(el); }
+  el.textContent = msg;
+  el.classList.add('on');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('on'), 2400);
+}
+
+/* ---------- 友だちに送る（リンク共有） ---------- */
+function shareResultLink(){
+  const t = lastResultType ? TYPES[lastResultType] : null;
+  /* ▼ 公開時に、診断ページの実URLへ差し替えてください */
+  const url = 'https://onkouchishin.life/';
+  const text = t
+    ? `わたしは「${t.name}」でした。あなたは何タイプ？ #わたしの五行タイプ`
+    : 'あなたは何タイプ？ #わたしの五行タイプ';
+  if(navigator.share){
+    navigator.share({title:'わたしの五行タイプ｜温考知身', text, url}).catch(()=>{});
+    return;
+  }
+  const payload = text + '\n' + url;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(payload).then(()=>toast('リンクをコピーしました')).catch(()=>toast('コピーできませんでした'));
+  } else {
+    toast('お使いの環境では共有に対応していません');
+  }
+}
+
+/* ---------- シェア画像生成（依存ライブラリなし・canvas手描画） ---------- */
+async function shareResultImage(){
+  if(!lastResultType) return;
+  const t = TYPES[lastResultType];
+  const sc = calcScores();
+  const order = Object.keys(sc).sort((a,b)=>sc[b]-sc[a]);
+  const second = TYPES[order[1]];
+  const tot = sc[order[0]] + sc[order[1]];
+  const p1 = tot ? Math.round(sc[order[0]]/tot*100) : 50;
+  const p2 = 100 - p1;
+
+  try{
+    await Promise.all([
+      document.fonts.load('700 260px "Shippori Mincho"'),
+      document.fonts.load('700 96px "Shippori Mincho"'),
+      document.fonts.load('500 40px "Zen Maru Gothic"')
+    ]);
+  }catch(e){ /* Font Loading APIが使えない環境ではそのまま進む */ }
+
+  const W = 1080, H = 1920;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const x = c.getContext('2d');
+
+  /* 和紙の背景 */
+  x.fillStyle = '#f4eee0'; x.fillRect(0,0,W,H);
+  x.fillStyle = 'rgba(69,59,44,.05)';
+  for(let yy=22; yy<H; yy+=44){
+    for(let xx=((yy/44)%2 ? 22 : 44); xx<W; xx+=44){
+      x.beginPath(); x.arc(xx,yy,2.6,0,Math.PI*2); x.fill();
+    }
+  }
+  x.strokeStyle = '#ddd2b6'; x.lineWidth = 3;
+  x.strokeRect(54,54,W-108,H-108);
+
+  x.textAlign = 'center';
+
+  /* 見出し */
+  x.fillStyle = '#8a7d64';
+  x.font = '500 36px "Zen Maru Gothic", sans-serif';
+  x.fillText('わ た し の 五 行 タ イ プ', W/2, 232);
+  x.strokeStyle = '#ddd2b6'; x.lineWidth = 2;
+  x.beginPath(); x.moveTo(280,258); x.lineTo(800,258); x.stroke();
+
+  /* seal（タイプ色の円と漢字） */
+  const cy = 660, r = 250;
+  x.setLineDash([14,14]); x.strokeStyle = '#ddd2b6'; x.lineWidth = 4;
+  x.beginPath(); x.arc(W/2,cy,r+34,0,Math.PI*2); x.stroke();
+  x.setLineDash([]);
+  x.fillStyle = t.color;
+  x.beginPath(); x.arc(W/2,cy,r,0,Math.PI*2); x.fill();
+  x.strokeStyle = 'rgba(255,255,255,.4)'; x.lineWidth = 10;
+  x.beginPath(); x.arc(W/2,cy,r-16,0,Math.PI*2); x.stroke();
+  x.fillStyle = '#fff';
+  x.font = '700 250px "Shippori Mincho", serif';
+  x.textBaseline = 'middle';
+  x.fillText(t.kanji, W/2, cy+16);
+  x.textBaseline = 'alphabetic';
+
+  /* キャッチ（二面性コピーを「、」で2行に） */
+  x.fillStyle = '#8a7d64';
+  x.font = '500 40px "Zen Maru Gothic", sans-serif';
+  const parts = t.catch.split('、');
+  x.fillText('— ' + parts[0] + '、', W/2, 1070);
+  x.fillText((parts[1]||'') + ' —', W/2, 1132);
+
+  /* タイプ名・キーワード */
+  x.fillStyle = '#453b2c';
+  x.font = '700 92px "Shippori Mincho", serif';
+  x.fillText('あなたは「' + t.name + '」', W/2, 1268);
+  x.fillStyle = '#8a7d64';
+  x.font = '500 34px "Zen Maru Gothic", sans-serif';
+  x.fillText('キーワード：' + t.kw, W/2, 1340);
+
+  /* 上位2タイプの配合バー */
+  const bw = 640, bh = 26, bx = (W-bw)/2, by = 1420, rr = bh/2;
+  x.save();
+  x.beginPath();
+  x.moveTo(bx+rr,by); x.lineTo(bx+bw-rr,by); x.arc(bx+bw-rr,by+rr,rr,-Math.PI/2,Math.PI/2);
+  x.lineTo(bx+rr,by+bh); x.arc(bx+rr,by+rr,rr,Math.PI/2,-Math.PI/2);
+  x.closePath(); x.clip();
+  x.fillStyle = t.color;      x.fillRect(bx, by, bw*p1/100, bh);
+  x.fillStyle = second.color; x.fillRect(bx+bw*p1/100, by, bw*p2/100+1, bh);
+  x.restore();
+  x.font = '700 40px "Zen Maru Gothic", sans-serif';
+  x.fillStyle = t.color;
+  x.textAlign = 'right'; x.fillText(t.kanji + ' ' + p1 + '%', W/2 - 30, 1520);
+  x.fillStyle = '#8a7d64';
+  x.textAlign = 'center'; x.fillText('／', W/2, 1520);
+  x.fillStyle = second.color;
+  x.textAlign = 'left'; x.fillText(second.kanji + ' ' + p2 + '%', W/2 + 30, 1520);
+  x.textAlign = 'center';
+
+  /* フッター */
+  x.fillStyle = '#8a7d64';
+  x.font = '500 34px "Zen Maru Gothic", sans-serif';
+  x.fillText('#わたしの五行タイプ', W/2, 1690);
+  x.fillStyle = '#453b2c';
+  x.font = '600 46px "Shippori Mincho", serif';
+  x.fillText('温 考 知 身', W/2, 1766);
+  x.fillStyle = '#8a7d64';
+  x.font = '500 26px "Zen Maru Gothic", sans-serif';
+  x.fillText('温もりと知恵を、暮らしに。', W/2, 1808);
+
+  /* Instagramへの導線（カメラ風の簡易アイコン＋@ハンドル） */
+  (function drawInstagramLink(){
+    const igText = '@onkouchishin';
+    const igFont = '500 30px "Zen Maru Gothic", sans-serif';
+    x.font = igFont;
+    const igTextWidth = x.measureText(igText).width;
+    const igIconSize = 32;
+    const igGap = 12;
+    const igTotalWidth = igIconSize + igGap + igTextWidth;
+    const igBaseline = 1852;                 // 装飾枠（下端 y=1866）の内側に収める
+    const iconTop = igBaseline - igIconSize + 7;
+    const iconLeft = W/2 - igTotalWidth/2;
+
+    x.save();
+    x.strokeStyle = '#8a7d64';
+    x.lineWidth = 2.4;
+    x.lineJoin = 'round';
+    const r = 9;
+    x.beginPath();
+    x.moveTo(iconLeft+r, iconTop);
+    x.arcTo(iconLeft+igIconSize, iconTop, iconLeft+igIconSize, iconTop+igIconSize, r);
+    x.arcTo(iconLeft+igIconSize, iconTop+igIconSize, iconLeft, iconTop+igIconSize, r);
+    x.arcTo(iconLeft, iconTop+igIconSize, iconLeft, iconTop, r);
+    x.arcTo(iconLeft, iconTop, iconLeft+igIconSize, iconTop, r);
+    x.closePath();
+    x.stroke();
+    x.beginPath();
+    x.arc(iconLeft+igIconSize/2, iconTop+igIconSize/2+1, 7.5, 0, Math.PI*2);
+    x.stroke();
+    x.fillStyle = '#8a7d64';
+    x.beginPath();
+    x.arc(iconLeft+igIconSize-8, iconTop+7, 2.2, 0, Math.PI*2);
+    x.fill();
+    x.restore();
+
+    x.textAlign = 'left';
+    x.fillStyle = '#8a7d64';
+    x.font = igFont;
+    x.fillText(igText, iconLeft+igIconSize+igGap, igBaseline);
+    x.textAlign = 'center';
+  })();
+
+  /* 共有 or ダウンロード */
+  const blob = await new Promise(res=>c.toBlob(res,'image/png'));
+  if(!blob) return;
+  const file = new File([blob], 'watashi-no-gogyo-type.png', {type:'image/png'});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({
+        files:[file],
+        text:'わたしは「' + t.name + '」でした。 #わたしの五行タイプ'
+      });
+      return;
+    }catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'watashi-no-gogyo-type.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 3000);
+}
+
+/* ---------- init ---------- */
+renderStart();
+showFinderHome();
+</script>
+</body>
+</html>

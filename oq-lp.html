@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OQ（オーキュー）｜私にもどる、温もりの習慣。 - 温考知身</title>
+<meta name="description" content="京都・丹後の鍼灸師が手がけるセルフケアお灸ブランドOQ。火をつけて置くだけ、1回5分から始められる温もりの習慣。あなたの五行タイプに合わせた楽しみ方をご案内します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --washi:#f4eee0;
+  --washi-deep:#ece4d0;
+  --card:#fdfaf1;
+  --ink:#453b2c;
+  --ink-soft:#8a7d64;
+  --ember:#c0632e;
+  --ember-soft:#e8c9ae;
+  --line:#ddd2b6;
+  --moku:#5d7f5f;
+  --tsuchi:#b98a2e;
+  --kin:#968660;
+  --mizu:#4b628c;
+  --radius:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  font-family:'Zen Maru Gothic',sans-serif;
+  background:var(--washi);
+  color:var(--ink);
+  line-height:2;
+  font-size:15px;
+  letter-spacing:.04em;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.serif{font-family:'Shippori Mincho',serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+.narrow{max-width:640px;margin:0 auto;padding:0 24px}
+
+/* ===== 共通見出し ===== */
+.eyebrow{
+  font-size:11px;letter-spacing:.35em;color:var(--ember);
+  text-transform:uppercase;margin-bottom:14px;font-weight:500;
+}
+h2{
+  font-family:'Shippori Mincho',serif;
+  font-size:clamp(22px,4vw,30px);
+  font-weight:500;line-height:1.7;letter-spacing:.08em;
+  margin-bottom:28px;
+}
+section{padding:88px 0}
+
+/* ===== OQグラデーション（ブランドシグネチャー） ===== */
+.aura{
+  background:
+    radial-gradient(ellipse 60% 55% at 30% 35%, rgba(122,143,101,.5), transparent 65%),
+    radial-gradient(ellipse 55% 60% at 72% 45%, rgba(192,99,46,.55), transparent 65%),
+    radial-gradient(ellipse 50% 50% at 55% 80%, rgba(224,190,110,.55), transparent 65%),
+    var(--washi-deep);
+}
+
+/* ===== ヒーロー ===== */
+.hero{padding:0;position:relative}
+.hero-inner{
+  display:grid;grid-template-columns:1fr 1fr;min-height:88vh;
+}
+.hero-copy{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:64px 6vw;
+}
+.hero-brand{
+  font-family:'Shippori Mincho',serif;
+  font-size:12px;letter-spacing:.4em;color:var(--ink-soft);margin-bottom:36px;
+}
+.hero h1{
+  font-family:'Shippori Mincho',serif;
+  font-size:clamp(28px,4.6vw,44px);
+  font-weight:500;line-height:1.9;letter-spacing:.1em;
+  margin-bottom:24px;
+}
+.hero-lead{color:var(--ink-soft);margin-bottom:40px;font-size:14px}
+.hero-visual{position:relative;min-height:60vh}
+.hero-visual img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+
+/* ===== ボタン ===== */
+.btn{
+  display:inline-block;text-decoration:none;
+  font-size:14px;letter-spacing:.12em;font-weight:500;
+  padding:15px 34px;border-radius:999px;
+  transition:opacity .25s, transform .25s;
+}
+.btn:hover{opacity:.82;transform:translateY(-1px)}
+.btn-ember{background:var(--ember);color:#fff}
+.btn-ghost{border:1px solid var(--ink-soft);color:var(--ink)}
+.btn-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.btn-note{font-size:12px;color:var(--ink-soft);margin-top:14px}
+
+/* ===== 共感 ===== */
+.sec-empathy{background:var(--card)}
+.empathy-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.empathy-list{list-style:none;margin:26px 0}
+.empathy-list li{
+  padding:13px 0 13px 30px;position:relative;
+  border-bottom:1px solid var(--line);font-size:14px;
+}
+.empathy-list li::before{
+  content:"";position:absolute;left:4px;top:50%;transform:translateY(-50%);
+  width:9px;height:9px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, var(--ember-soft), var(--ember));
+}
+.empathy-img{border-radius:var(--radius);overflow:hidden}
+.empathy-note{font-size:13px;color:var(--ink-soft)}
+
+/* ===== ハードルを下げる ===== */
+.sec-easy{background:var(--washi)}
+.easy-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+.easy-card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 28px;
+}
+.easy-card.wide{grid-column:1/-1;border:none;padding:36px clamp(28px,5vw,48px)}
+.easy-card .big{
+  font-family:'Shippori Mincho',serif;font-size:22px;letter-spacing:.06em;
+  color:var(--ember);margin-bottom:10px;line-height:1.6;
+}
+
+.easy-card p{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.easy-card.wide p{color:var(--ink);max-width:520px}
+
+/* ===== 物語 ===== */
+.sec-story{background:var(--washi-deep);position:relative;overflow:hidden}
+.story-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.story-imgs{display:grid;gap:18px}
+.story-imgs img{border-radius:var(--radius)}
+.story-body p{margin-bottom:1.4em;font-size:14px}
+.quote-line{
+  font-family:'Shippori Mincho',serif;font-size:16px;letter-spacing:.06em;
+  color:var(--ink);margin-bottom:1.4em;line-height:2.1;
+}
+
+/* ===== タイプ別セクション ===== */
+.sec-types{background:var(--card)}
+.type-intro{max-width:640px;margin-bottom:44px}
+.shindan-box{
+  background:var(--washi);border:1px dashed var(--ink-soft);
+  border-radius:var(--radius);padding:26px 28px;margin:36px 0 48px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.shindan-box p{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.shindan-box strong{color:var(--ink);font-size:14px;display:block;margin-bottom:4px}
+
+.type-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:0}
+.type-tab{
+  font-family:'Zen Maru Gothic',sans-serif;
+  border:1px solid var(--line);background:var(--washi);
+  border-radius:14px 14px 0 0;border-bottom:none;
+  padding:16px 8px 14px;cursor:pointer;text-align:center;
+  color:var(--ink-soft);transition:background .2s,color .2s;
+  font-size:13px;letter-spacing:.08em;
+}
+.type-tab .kanji{
+  font-family:'Shippori Mincho',serif;display:block;
+  font-size:24px;line-height:1.3;margin-bottom:2px;
+}
+.type-tab[aria-selected="true"]{
+  background:var(--c);color:#fff;border-color:var(--c);
+}
+.type-panel{
+  border:1px solid var(--line);border-radius:0 0 var(--radius) var(--radius);
+  background:var(--washi);padding:44px clamp(24px,5vw,52px);
+  border-top:4px solid var(--c);
+  display:none;
+}
+.type-panel.active{display:block}
+.type-catch{
+  font-family:'Shippori Mincho',serif;font-size:clamp(18px,3vw,23px);
+  letter-spacing:.08em;line-height:1.8;margin-bottom:8px;color:var(--c);
+}
+.type-sub{font-size:13px;color:var(--ink-soft);margin-bottom:32px}
+.type-cols{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.type-card{
+  background:var(--card);border:1px solid var(--line);
+  border-radius:var(--radius);padding:28px 26px;
+}
+.type-card .label{
+  font-size:11px;letter-spacing:.3em;color:var(--ink-soft);margin-bottom:14px;
+}
+.tsubo-name{
+  font-family:'Shippori Mincho',serif;font-size:24px;letter-spacing:.1em;line-height:1.5;
+}
+.tsubo-name rt{font-size:10px;letter-spacing:.2em;color:var(--ink-soft)}
+.tsubo-where{font-size:13px;color:var(--ink-soft);margin-top:10px;line-height:2}
+.reco-badge{
+  display:inline-block;font-size:12px;letter-spacing:.14em;font-weight:700;
+  border-radius:999px;padding:6px 18px;color:#fff;margin-bottom:12px;
+}
+.reco-hot{background:var(--ember)}
+.reco-warm{background:var(--kin)}
+.reco-why{font-size:13px;color:var(--ink-soft);line-height:2;margin-bottom:20px}
+.type-panel .btn{font-size:13px;padding:12px 26px}
+.type-footnote{
+  font-size:12px;color:var(--ink-soft);margin-top:36px;line-height:1.9;
+  padding-top:22px;border-top:1px solid var(--line);
+}
+
+/* ===== ツボ早見 ===== */
+.sec-tsubo{background:var(--washi)}
+.tsubo-table{margin-top:36px;border-top:1px solid var(--line)}
+.tsubo-row{
+  display:grid;grid-template-columns:56px 1.1fr 1fr 1.3fr;gap:18px;
+  align-items:center;padding:22px 6px;border-bottom:1px solid var(--line);
+}
+.tsubo-row .el{
+  font-family:'Shippori Mincho',serif;font-size:22px;color:#fff;
+  width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.tsubo-row .nm{font-family:'Shippori Mincho',serif;font-size:17px;letter-spacing:.08em}
+.tsubo-row .nm rt{font-size:9px;color:var(--ink-soft)}
+.tsubo-row .loc,.tsubo-row .when{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.tsubo-row .when{color:var(--ink)}
+.tsubo-caption{font-size:12px;color:var(--ink-soft);margin-top:20px;line-height:1.9}
+
+/* ===== 商品 ===== */
+.sec-products{background:var(--card)}
+.prod-hero{border-radius:var(--radius);overflow:hidden;margin:40px 0 48px}
+.prod-list{display:grid;gap:20px}
+.prod-item{
+  display:grid;grid-template-columns:200px 1fr auto;gap:30px;align-items:center;
+  background:var(--washi);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 30px;
+}
+.prod-item img{border-radius:12px;aspect-ratio:4/3;object-fit:cover}
+.prod-item.noimg{grid-template-columns:1fr auto}
+.prod-name{
+  font-family:'Shippori Mincho',serif;font-size:18px;letter-spacing:.08em;margin-bottom:4px;
+}
+.prod-price{font-size:13px;color:var(--ember);font-weight:700;margin-bottom:10px}
+.prod-desc{font-size:13px;color:var(--ink-soft);line-height:1.9}
+.prod-tag{
+  display:inline-block;font-size:10px;letter-spacing:.2em;color:var(--ember);
+  border:1px solid var(--ember);border-radius:999px;padding:3px 12px;margin-bottom:10px;
+}
+
+/* ===== 使い方 ===== */
+.sec-howto{background:var(--washi-deep)}
+.howto-imgs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:40px 0}
+.howto-imgs img{border-radius:var(--radius)}
+.safety{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 32px;margin-top:8px;
+}
+.safety h3{
+  font-family:'Shippori Mincho',serif;font-size:15px;letter-spacing:.14em;
+  margin-bottom:16px;color:var(--ember);
+}
+.safety ul{list-style:none}
+.safety li{
+  font-size:13px;color:var(--ink-soft);padding:6px 0 6px 22px;position:relative;line-height:1.9;
+}
+.safety li::before{content:"※";position:absolute;left:0;color:var(--ember)}
+
+/* ===== FAQ ===== */
+.sec-faq{background:var(--washi)}
+.faq{border-top:1px solid var(--line);margin-top:36px}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;padding:22px 40px 22px 6px;font-size:14px;font-weight:500;
+  list-style:none;position:relative;letter-spacing:.05em;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"＋";position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  color:var(--ember);font-size:16px;
+}
+.faq details[open] summary::after{content:"−"}
+.faq .a{padding:0 6px 24px;font-size:13px;color:var(--ink-soft);line-height:2}
+
+/* ===== クロージング ===== */
+.sec-close{padding:0;position:relative}
+.close-visual{position:relative;min-height:70vh;display:flex;align-items:center}
+.close-visual>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.close-visual::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(rgba(244,238,224,.55),rgba(244,238,224,.82));
+}
+.close-copy{position:relative;z-index:2;text-align:center;width:100%;padding:100px 24px}
+.close-copy h2{margin-bottom:20px}
+.close-copy p{font-size:14px;color:var(--ink);margin-bottom:44px}
+.close-ctas{display:flex;flex-direction:column;gap:14px;align-items:center}
+
+footer{
+  background:var(--washi-deep);padding:44px 24px;text-align:center;
+  font-size:12px;color:var(--ink-soft);letter-spacing:.1em;
+}
+footer .fbrand{font-family:'Shippori Mincho',serif;font-size:14px;color:var(--ink);margin-bottom:8px}
+
+/* ===== レスポンシブ ===== */
+@media(max-width:820px){
+  section{padding:64px 0}
+  .hero-inner{grid-template-columns:1fr;min-height:auto}
+  .hero-visual{min-height:52vh;order:-1}
+  .hero-copy{padding:48px 24px 64px}
+  .empathy-grid,.story-grid,.type-cols{grid-template-columns:1fr;gap:32px}
+  .easy-cards{grid-template-columns:1fr;gap:14px}
+  .type-tabs{gap:6px}
+  .type-tab{padding:12px 4px 10px;font-size:11px}
+  .type-tab .kanji{font-size:20px}
+  .tsubo-row{grid-template-columns:44px 1fr;gap:8px 16px}
+  .tsubo-row .loc{grid-column:2}
+  .tsubo-row .when{grid-column:1/-1;padding-left:60px}
+  .prod-item{grid-template-columns:1fr;gap:18px}
+  .prod-item img{width:100%;aspect-ratio:16/9}
+  .howto-imgs{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+  セクション0：ヒーロー
+============================================================ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-brand">ŌKYU ｜ 温考知身のセルフケアお灸</p>
+      <h1>私にもどる、<br>温もりの習慣。</h1>
+      <p class="hero-lead">
+        お灸は、忙しい日常の中に「自分にもどる5分間」をつくる、セルフケアアイテムです。<br>
+        おやすみ前の少しの時間。じんわりとした温もりで、心と体が静かに休まるような感覚です。
+      </p>
+      <div class="btn-row">
+        <a class="btn btn-ember" href="#types">私に合うOQを見る</a>
+        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->まず自分のタイプを知る</a>
+      </div>
+      <p class="btn-note">「わたしの五行タイプ」診断（約3分・無料）を受けた方は、上のボタンから結果に合わせた楽しみ方をご覧いただけます。</p>
+    </div>
+    <div class="hero-visual">
+      <img src="images/OQ-8.jpg" alt="トレイに並んだOQのお灸セット" fetchpriority="high">
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+  セクション1：共感
+============================================================ -->
+<section class="sec-empathy">
+  <div class="wrap">
+    <div class="empathy-grid">
+      <div>
+        <h2>不調と呼ぶには、<br>まだ早い。</h2>
+        <ul class="empathy-list">
+          <li>夕方になると、足首から下だけが冷えている</li>
+          <li>肩こりというより、首のつけ根がずっと重い</li>
+          <li>湯船につかればいい気はする。その気力が出ない夜がある</li>
+          <li>理由の見当たらないまま、気分の晴れない日</li>
+        </ul>
+        <p class="empathy-note">
+          なんとなく調子がいまいち——そんな「はざま」の日は、誰にでもあります。<br>
+          OQは暮らしに寄り添うアイテム。よもぎからできたお灸は、体を温めながら癒してくれます。
+        </p>
+      </div>
+      <div class="empathy-img">
+        <img src="images/OQ-1.jpg" alt="静かに煙をあげるお灸" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション2：ハードルを下げる
+============================================================ -->
+<section class="sec-easy">
+  <div class="wrap">
+    <p class="eyebrow">SIMPLE &amp; EASY</p>
+    <h2>じつは、お香を焚くのと<br>同じくらいの手軽さです。</h2>
+    <p style="max-width:600px;color:var(--ink-soft);font-size:14px">
+      「熱そうで怖い」「準備が面倒」——興味はあるのに、ここで立ち止まる方がいちばん多い。<br>
+      だからOQは、始めるまでの段取りをぜんぶ削りました。
+    </p>
+    <div class="easy-cards">
+      <div class="easy-card">
+        <p class="big">道具は、<br>もう全部そろっています</p>
+        <p>オールインワンのセットだから、届いたその日から、どこでもはじめられます。</p>
+      </div>
+      <div class="easy-card">
+        <p class="big">貼るだけの、<br>台座灸</p>
+        <p>裏面はシール式。火をつけて、貼る場所に置くだけです。はじめての方でも扱いやすいつくりにしました。</p>
+      </div>
+      <div class="easy-card wide aura">
+        <p class="big">部屋に置いても、浮かない佇まい</p>
+        <p>棚の上に出しっぱなしにできるデザインです。使うたびに仕舞わなくていい、というのも、続けやすさのひとつだと思っています。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション3：ブランドの物語
+============================================================ -->
+<section class="sec-story">
+  <div class="wrap">
+    <div class="story-grid">
+      <div class="story-imgs">
+        <img src="images/OQ-7.jpg" alt="お灸の原料であるもぐさの質感" loading="lazy">
+        <img src="images/OQ-6.jpg" alt="使い終えたお灸とマッチを置いた小皿" loading="lazy">
+      </div>
+      <div class="story-body">
+        <p class="eyebrow">STORY</p>
+        <h2>温めて、考えて、<br>知って、身につく。</h2>
+        <p class="quote-line">
+          「あ、今の自分、<br>
+          こんな感じだったんだな」
+        </p>
+        <p>
+          OQをつくったのは、京都・丹後の鍼灸院「鍼灸qitrip宮津」。ブランド名の「温考知身（おんこうちしん）」は、温めて、考えて、知って、身につく——施術を通して大切と感じた順番を、そのまま四文字にしたものです。
+        </p>
+        <p>
+          温めると、体はすこし正直になります。今日は足首が冷たいとか、首のつけ根がこわばっているとか。その小さな気づきが、そのまま自分と向き合う時間の入口になる。
+        </p>
+        <p>
+          だから、りっぱな道具はいりません。缶ひとつ、五分。それだけで始められるかたちにしました。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション4：五行タイプ別（診断からの着地点）
+  診断結果ページからは #moku / #tsuchi / #kin / #mizu 付きURLでリンクすると
+  該当タイプのタブが開いた状態で表示されます。
+============================================================ -->
+<section class="sec-types" id="types">
+  <div class="wrap">
+    <p class="eyebrow">FOR YOUR TYPE</p>
+    <h2>タイプ別の、<br>「まずここから」。</h2>
+    <p class="type-intro" style="color:var(--ink-soft);font-size:14px">
+      東洋医学の五行論では、体質や気質をいくつかのタイプに分けて考えます。「わたしの五行タイプ」診断を受けた方は、ご自身のタイプを。まだの方も、読んでいて近いと感じるタブからどうぞ。温める場所の目安と、合うOQをご案内します。
+    </p>
+
+    <div class="shindan-box">
+      <p>
+        <strong>まだ診断を受けていない方へ</strong>
+        3分の質問で、ご自身の五行タイプと、タイプ別のツボ解説がわかります。
+      </p>
+      <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->まず自分のタイプを知る</a>
+    </div>
+
+    <div class="type-tabs" role="tablist" aria-label="五行タイプを選ぶ">
+      <button class="type-tab" style="--c:var(--moku)" role="tab" aria-selected="true" data-type="moku"><span class="kanji">木</span>もく</button>
+      <button class="type-tab" style="--c:var(--tsuchi)" role="tab" aria-selected="false" data-type="tsuchi"><span class="kanji">土</span>つち</button>
+      <button class="type-tab" style="--c:var(--kin)" role="tab" aria-selected="false" data-type="kin"><span class="kanji">金</span>きん</button>
+      <button class="type-tab" style="--c:var(--mizu)" role="tab" aria-selected="false" data-type="mizu"><span class="kanji">水</span>みず</button>
+    </div>
+
+    <!-- 木 -->
+    <div class="type-panel active" style="--c:var(--moku)" id="panel-moku" role="tabpanel">
+      <p class="type-catch">がんばれてしまう人ほど、<br>切り替えの合図が要ります。</p>
+      <p class="type-sub">目標があると走れる木タイプ。そのぶん、思いどおりに進まない日のイライラを、人知れずため込みがちです。「休む」も予定のうち、と考えてみてください。</p>
+      <div class="type-cols">
+        <div class="type-card">
+          <p class="label">まず、この場所から</p>
+          <p class="tsubo-name"><ruby>太衝<rt>たいしょう</rt></ruby></p>
+          <p class="tsubo-where">
+            足の甲、親指と人差し指の骨が交わる手前のくぼみ。木タイプの要（かなめ）として、東洋医学で古くから使われてきた場所です。<br>
+            <span style="font-size:12px">※位置は目安です。指で押してみて、心地よいと感じる場所に。</span>
+          </p>
+        </div>
+        <div class="type-card">
+          <p class="label">おすすめのあたたかさ</p>
+          <span class="reco-badge reco-warm">OQ point warm</span>
+          <p class="reco-why">気が高ぶって頭が止まらない夜には、強い刺激より、ゆるやかな温もりのほうが合図になります。太衝にwarmをひとつ——木タイプの基本形です。</p>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->OQ point warm を詳しく見る</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 土 -->
+    <div class="type-panel" style="--c:var(--tsuchi)" id="panel-tsuchi" role="tabpanel" hidden>
+      <p class="type-catch">人を支えるその手を、<br>今夜は自分に。</p>
+      <p class="type-sub">聞き役が上手な土タイプは、悩みをひとりで抱えやすい人でもあります。ごはんをゆっくり味わうのと同じ速度で、自分の時間も。</p>
+      <div class="type-cols">
+        <div class="type-card">
+          <p class="label">まず、この場所から</p>
+          <p class="tsubo-name"><ruby>三陰交<rt>さんいんこう</rt></ruby></p>
+          <p class="tsubo-where">
+            内くるぶしの頂点から指4本分上、すねの骨のうしろ側のふち。おやすみ前の定番として知られる場所です。<br>
+            <span style="font-size:12px">※位置は目安です。指で押してみて、心地よいと感じる場所に。</span>
+          </p>
+        </div>
+        <div class="type-card">
+          <p class="label">おすすめのあたたかさ</p>
+          <span class="reco-badge reco-hot">OQ point hot</span>
+          <p class="reco-why">なんとなく体が重い日の多い土タイプには、じんわり芯まで届くhotを。三陰交は座ったまま手が届く場所なので、寝る前の五分にちょうどいい組み合わせです。</p>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->OQ point hot を詳しく見る</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 金 -->
+    <div class="type-panel" style="--c:var(--kin)" id="panel-kin" role="tabpanel" hidden>
+      <p class="type-catch">その感じやすさは、<br>直すところではありません。</p>
+      <p class="type-sub">ひらめきと直感で動く金タイプ。気分の波とつきあうには、ひとりで静かに過ごす時間の確保が、なにより先です。</p>
+      <div class="type-cols">
+        <div class="type-card">
+          <p class="label">まず、この場所から</p>
+          <p class="tsubo-name"><ruby>太淵<rt>たいえん</rt></ruby></p>
+          <p class="tsubo-where">
+            手首の内側、親指側の横じわの上、脈にふれるあたり。手もとにあるので、机に向かったままでも温められます。<br>
+            <span style="font-size:12px">※位置は目安です。指で押してみて、心地よいと感じる場所に。</span>
+          </p>
+        </div>
+        <div class="type-card">
+          <p class="label">おすすめのあたたかさ</p>
+          <span class="reco-badge reco-warm">OQ point warm</span>
+          <p class="reco-why">まずはwarmから。繊細な感覚をもつ金タイプには、穏やかな温もりくらいが、ちょうどなじみます。</p>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->OQ point warm を詳しく見る</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 水 -->
+    <div class="type-panel" style="--c:var(--mizu)" id="panel-mizu" role="tabpanel" hidden>
+      <p class="type-catch">ためて、つかう。<br>その繰り返しの底に、小さな火を。</p>
+      <p class="type-sub">エネルギーを蓄えて、少しずつ使う水タイプ。しっかり動いて、しっかり休む——そのメリハリを、夜の習慣で支えます。</p>
+      <div class="type-cols">
+        <div class="type-card">
+          <p class="label">まず、この場所から</p>
+          <p class="tsubo-name"><ruby>太渓<rt>たいけい</rt></ruby></p>
+          <p class="tsubo-where">
+            内くるぶしとアキレス腱のあいだのくぼみ。冷えの季節に、まず思い出したい場所です。<br>
+            <span style="font-size:12px">※位置は目安です。指で押してみて、心地よいと感じる場所に。</span>
+          </p>
+        </div>
+        <div class="type-card">
+          <p class="label">おすすめのあたたかさ</p>
+          <span class="reco-badge reco-hot">OQ point hot</span>
+          <p class="reco-why">水タイプの定番は、太渓にhot。湯船から上がったあと、体が冷めきる前のもう一手として。冬は、とくに出番が増えます。</p>
+          <a class="btn btn-ember" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->OQ point hot を詳しく見る</a>
+        </div>
+      </div>
+    </div>
+
+    <p class="type-footnote">
+      ※タイプ別のおすすめは、温考知身の鍼灸師による提案です。東洋医学の考え方で、気が高ぶりやすいタイプ（木・金）には穏やかな「warm」を、温もりをじっくりためたいタイプ（土・水）にはしっかりめの「hot」を、という目安でご案内しています。どちらも心地よさの好みで自由に選んでいただけます。迷ったら、両方入りの<a href="https://qitrip.base.shop/" style="color:var(--ember)"><!-- フルケアセット商品ページURLに差し替え -->OQフルケアセット</a>という選択も。<br>
+      ※ツボの位置はあくまで目安です。心地よいと感じる場所でお使いください。
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション5：基本のツボ早見
+============================================================ -->
+<section class="sec-tsubo" id="tsubo">
+  <div class="wrap">
+    <p class="eyebrow">FOUR POINTS</p>
+    <h2>置く場所は、<br>この4つから。</h2>
+    <p style="max-width:620px;color:var(--ink-soft);font-size:14px">
+      店頭でいちばん多く聞かれてきたのが、「結局、どこに置けばいいの？」でした。迷ったら、この4つだけ。どれも自分で見つけやすく、お灸を置きやすい場所です。
+    </p>
+    <div class="tsubo-table">
+      <div class="tsubo-row">
+        <span class="el" style="background:var(--moku)">木</span>
+        <p class="nm"><ruby>太衝<rt>たいしょう</rt></ruby></p>
+        <p class="loc">足の甲。親指と人差し指の骨が交わる手前のくぼみ</p>
+        <p class="when">気ぜわしい日の、切り替えに</p>
+      </div>
+      <div class="tsubo-row">
+        <span class="el" style="background:var(--tsuchi)">土</span>
+        <p class="nm"><ruby>三陰交<rt>さんいんこう</rt></ruby></p>
+        <p class="loc">内くるぶしの頂点から指4本分上、すねの骨のうしろ側のふち</p>
+        <p class="when">なんとなく体が重い日の、おやすみ前に</p>
+      </div>
+      <div class="tsubo-row">
+        <span class="el" style="background:var(--kin)">金</span>
+        <p class="nm"><ruby>太淵<rt>たいえん</rt></ruby></p>
+        <p class="loc">手首の内側、親指側の横じわの上</p>
+        <p class="when">深呼吸したくなった昼下がりに</p>
+      </div>
+      <div class="tsubo-row">
+        <span class="el" style="background:var(--mizu)">水</span>
+        <p class="nm"><ruby>太渓<rt>たいけい</rt></ruby></p>
+        <p class="loc">内くるぶしとアキレス腱のあいだのくぼみ</p>
+        <p class="when">冷えの季節、湯上がりの一手に</p>
+      </div>
+    </div>
+    <p class="tsubo-caption">
+      ※ツボの位置は目安です。心地よいと感じる場所にご使用ください。<br>
+      それぞれのツボの詳しい見つけ方や、あなたの体質との関わりは、「わたしの五行タイプ」診断の結果ページでタイプ別に解説しています。
+      <a href="https://onkouchishin.life/gogyo-shindan/" style="color:var(--ember)"><!-- 診断ページURLに差し替え -->診断で自分の要のツボを知る →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション6：商品ラインナップ（BASEへの送客）
+============================================================ -->
+<section class="sec-products" id="products">
+  <div class="wrap">
+    <p class="eyebrow">LINE UP</p>
+    <h2>はじめての一箱から、<br>ふだんの補充まで。</h2>
+
+    <div class="prod-hero">
+      <img src="images/OQ-3.jpg" alt="OQ can とOQ point warm / hot のパッケージ" loading="lazy">
+    </div>
+
+    <div class="prod-list">
+      <div class="prod-item">
+        <img src="images/OQ-5-4.jpg" alt="OQ canの内容物：お灸2種・ろうそく・マッチ・ガイドブック" loading="lazy">
+        <div>
+          <span class="prod-tag">迷わず全部そろえたい方に</span>
+          <p class="prod-name">OQフルケアセット</p>
+          <p class="prod-price">5,500円（税込）</p>
+          <p class="prod-desc">OQ can に、point hot・point warm のリフィルを加えたセット。タイプや季節、その日の気分で使い分けられる、いちばん充実のかたちです。</p>
+        </div>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- フルケアセット商品ページURLに差し替え -->詳しく見る</a>
+      </div>
+
+      <div class="prod-item">
+        <img src="images/OQ-8.jpg" alt="OQ can はじめてのお灸セット" loading="lazy">
+        <div>
+          <span class="prod-tag">まずは試してみたい方に</span>
+          <p class="prod-name">OQ can（はじめてのお灸セット）</p>
+          <p class="prod-price">3,300円（税込）</p>
+          <p class="prod-desc">お灸2種・ろうそく・マッチ・ガイドブック。必要なものは、すべて箱の中に。届いたその日から始められるオールインワンキットです。贈りものにも。</p>
+        </div>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- OQ can 商品ページURLに差し替え -->詳しく見る</a>
+      </div>
+
+      <div class="prod-item noimg">
+        <div>
+          <span class="prod-tag">補充用・しっかりめ</span>
+          <p class="prod-name">OQ point hot（リフィル）</p>
+          <p class="prod-price">1,650円（税込）</p>
+          <p class="prod-desc">しっかりめの温もり「hot」のリフィル50粒。土・水タイプの定番。缶はそのまま、中身だけ足せます。</p>
+        </div>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- point hot 商品ページURLに差し替え -->詳しく見る</a>
+      </div>
+
+      <div class="prod-item noimg">
+        <div>
+          <span class="prod-tag">補充用・やさしめ</span>
+          <p class="prod-name">OQ point warm（リフィル）</p>
+          <p class="prod-price">1,650円（税込）</p>
+          <p class="prod-desc">穏やかな温もり「warm」のリフィル50粒。木・金タイプの方は、まずこちらから。</p>
+        </div>
+        <a class="btn btn-ghost" href="https://qitrip.base.shop/"><!-- point warm 商品ページURLに差し替え -->詳しく見る</a>
+      </div>
+    </div>
+    <p class="tsubo-caption" style="text-align:center;margin-top:28px">
+      ご購入手続きは、温考知身のオンラインショップ（BASE）にて承ります。
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション7：使い方と安心
+============================================================ -->
+<section class="sec-howto" id="howto">
+  <div class="narrow" style="max-width:860px">
+    <p class="eyebrow">HOW TO USE</p>
+    <h2>5分でできる、OQの時間。</h2>
+    <p style="color:var(--ink-soft);font-size:14px;max-width:620px;margin-bottom:24px">
+      お灸がじんわり温まるまでの五分間は、スマホを手放す時間でもあります。立ちのぼる煙をながめながら、ゆっくり深呼吸を。
+    </p>
+    <p style="color:var(--ink-soft);font-size:14px;max-width:620px">
+      <strong style="color:var(--ink)">STEP 01</strong>　お灸のもぐさに火をつけます。<br>
+      <strong style="color:var(--ink)">STEP 02</strong>　お好みの場所にお灸を置きます。<br>
+      <strong style="color:var(--ink)">STEP 03</strong>　熱を感じるまで、置いておきます。<br>
+      <strong style="color:var(--ink)">STEP 04</strong>　ゆっくりと取り外し、缶の蓋に置きます。
+    </p>
+    <div class="howto-imgs">
+      <img src="images/OQ-5-2.jpg" alt="使い方 STEP01 火をつける・STEP02 置く" loading="lazy">
+      <img src="images/OQ-5-3.jpg" alt="使い方 STEP03 温もりを感じる・STEP04 取り外す" loading="lazy">
+    </div>
+    <div class="safety">
+      <h3>安全にお使いいただくために</h3>
+      <ul>
+        <li>熱いと感じたら、我慢せず、すぐに取り外してください。</li>
+        <li>顔・粘膜・傷や湿疹のある場所、皮膚の弱い部分にはご使用にならないでください。</li>
+        <li>妊娠中の方、糖尿病などで温度を感じにくい方、皮膚の弱い方は、ご使用前にかかりつけの専門家にご相談ください。</li>
+        <li>ご使用中はその場を離れず、火の取り扱いに十分ご注意ください。</li>
+        <li>使い終わったお灸は完全に火が消えたことを確認し、缶の蓋などの不燃性の場所に置いてください。</li>
+        <li>お子さまの手の届かない場所に保管してください。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション8：FAQ
+============================================================ -->
+<section class="sec-faq">
+  <div class="narrow" style="max-width:760px">
+    <p class="eyebrow">FAQ</p>
+    <h2>よくあるご質問</h2>
+    <div class="faq">
+      <details>
+        <summary>お灸は熱くないですか？</summary>
+        <div class="a">じんわり温かい、と感じる方が多いようです。感じ方には個人差がありますので、「熱い」と感じたら我慢せず、すぐに取り外してください。それが正しい使い方です。</div>
+      </details>
+      <details>
+        <summary>毎日続けないと意味がないですか？</summary>
+        <div class="a">いいえ。「気が向いた日にやる」で大丈夫です。義務ではなく、自分のための楽しみとして。続けやすさをいちばんに考えてください。</div>
+      </details>
+      <details>
+        <summary>hotとwarm、どちらを選べばいいかわかりません。</summary>
+        <div class="a">hotはじっくり深く温めるタイプ、warmはやさしい温もりのタイプです。「わたしの五行タイプ」診断を受けると、あなたのタイプに合わせた目安がわかります。迷う場合は、両方入りのOQフルケアセットもございます。</div>
+      </details>
+      <details>
+        <summary>ツボの場所が合っているか不安です。</summary>
+        <div class="a">「だいたいこのあたり」で十分です。ツボの位置はあくまで目安ですので、指で押してみて、心地よいと感じる場所をお選びください。</div>
+      </details>
+      <details>
+        <summary>煙やにおいは強いですか？</summary>
+        <div class="a">もぐさ特有の、草を焚いたような香りとわずかな煙が出ます。この香りごと楽しんでいただくのがOQの時間ですが、換気をしながらのご使用をおすすめします。</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+  セクション9：クロージング
+============================================================ -->
+<section class="sec-close">
+  <div class="close-visual">
+    <img src="images/OQ-4-2.jpg" alt="" loading="lazy">
+    <div class="close-copy">
+      <p class="eyebrow">ŌKYU</p>
+      <h2>今日の自分に、<br>小さな火をひとつ。</h2>
+      <p>
+        大げさなことは、なにもしなくていい。<br>
+        夜、眠る前の五分、自分の体に手を当てて、温める。<br>
+        それだけの習慣を、あなたのペースで。今夜からでも、来週からでも。
+      </p>
+      <div class="close-ctas">
+        <a class="btn btn-ember" href="https://qitrip.base.shop/">OQのラインナップを見る</a>
+        <a class="btn btn-ghost" href="#types">タイプ別のおすすめにもどる</a>
+        <a class="btn btn-ghost" href="https://onkouchishin.life/gogyo-shindan/"><!-- 診断ページURLに差し替え -->自分の五行タイプを知る</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="fbrand">温考知身 ONKOUCHISHIN</p>
+  <p>京都・丹後より。温めて、考えて、知って、身につく。</p>
+</footer>
+
+<script>
+(function(){
+  var tabs = document.querySelectorAll('.type-tab');
+  var panels = {
+    moku: document.getElementById('panel-moku'),
+    tsuchi: document.getElementById('panel-tsuchi'),
+    kin: document.getElementById('panel-kin'),
+    mizu: document.getElementById('panel-mizu')
+  };
+  function show(type){
+    if(!panels[type]) return;
+    tabs.forEach(function(t){
+      var on = t.dataset.type === type;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    Object.keys(panels).forEach(function(k){
+      panels[k].classList.toggle('active', k === type);
+      panels[k].hidden = (k !== type);
+    });
+  }
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){ show(t.dataset.type); });
+  });
+  // 診断結果ページからのディープリンク対応:
+  // 例) https://onkouchishin.life/oq/#moku で木タイプが開いた状態で表示
+  var hash = location.hash.replace('#','');
+  if(panels[hash]){
+    show(hash);
+    var el = document.getElementById('types');
+    if(el){ setTimeout(function(){ el.scrollIntoView(); }, 60); }
+  } else {
+    show('moku');
+  }
+})();
+</script>
+</body>
+</html>
